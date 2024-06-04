@@ -586,7 +586,7 @@ CNode* CConnman::ConnectNode(CAddress addrConnect, const char *pszDest, bool fCo
     }
 
     // Load and verify the child node key
-    const std::string childKeyPath = gArgs.GetArg("-nodekey", "");
+    const std::string childKeyPath = gArgs.GetArg("-childkey", "");
     if (childKeyPath.empty()) {
         LogPrintf("child key file not specified in configuration file\n");
         return nullptr;
