@@ -434,7 +434,7 @@ void SetupServerArgs(NodeContext& node)
     argsman.AddArg("-reindex-chainstate", "Rebuild chain state from the currently indexed blocks. When in pruning mode or if blocks on disk might be corrupted, use full -reindex instead.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-settings=<file>", strprintf("Specify path to dynamic settings data file. Can be disabled with -nosettings. File is written at runtime and not meant to be edited by users (use %s instead for custom settings). Relative paths will be prefixed by datadir location. (default: %s)", BITCOIN_CONF_FILENAME, BITCOIN_SETTINGS_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-texitkey=<file>", "Path to the root public key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    argsman.AddArg("-childkey=<file>", "Path to the self node key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-authkey=<file>", "Path to the self node key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #if HAVE_SYSTEM
     argsman.AddArg("-startupnotify=<cmd>", "Execute command on startup.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #endif
@@ -1218,15 +1218,15 @@ bool AppInitParameterInteraction(const ArgsManager& args)
     }
 
     if (args.IsArgSet("-texitkey")) {
-        std::string textKey = args.GetArg("-texitkey", "defaultvalue");
+        std::string texitKey = args.GetArg("-texitkey", "defaultvalue");
         // Handle Texit Key Option
-        LogPrintf("Custom option value: %s\n", textKey);
+        LogPrintf("Custom option value: %s\n", texitKey);
     }
 
-    if (args.IsArgSet("-childkey")) {
-        std::string childKey = args.GetArg("-childkey", "defaultvalue");
-        // Handle Child Key Option
-        LogPrintf("Custom option value: %s\n", childKey);
+    if (args.IsArgSet("-authkey")) {
+        std::string authKey = args.GetArg("-authkey", "defaultvalue");
+        // Handle Node Auth Key Option
+        LogPrintf("Custom option value: %s\n", authKey);
     }
 
     return true;
@@ -1342,15 +1342,15 @@ bool AppInitMain(const util::Ref& context, NodeContext& node, interfaces::BlockA
     }
 
     if (args.IsArgSet("-texitkey")) {
-        std::string textKey = args.GetArg("-texitkey", "defaultvalue");
+        std::string texitKey = args.GetArg("-texitkey", "defaultvalue");
         // Handle Texit Key Option
-        LogPrintf("Custom option value: %s\n", textKey);
+        LogPrintf("Custom option value: %s\n", texitKey);
     }
 
-    if (args.IsArgSet("-childkey")) {
-        std::string childKey = args.GetArg("-childkey", "defaultvalue");
-        // Handle Child Key Option
-        LogPrintf("Custom option value: %s\n", childKey);
+    if (args.IsArgSet("-authkey")) {
+        std::string authKey = args.GetArg("-authkey", "defaultvalue");
+        // Handle Node Auth Key Option
+        LogPrintf("Custom option value: %s\n", authKey);
     }
 
     InitSignatureCache();
