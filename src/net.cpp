@@ -17,10 +17,6 @@
 #include <net_permissions.h>
 #include <netbase.h>
 #include <node/ui_interface.h>
-#include <openssl/x509.h>
-#include <openssl/pem.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
 #include <protocol.h>
 #include <random.h>
 #include <scheduler.h>
@@ -395,92 +391,6 @@ static CAddress GetBindAddress(SOCKET sock)
     return addr_bind;
 }
 
-X509* loadNodeKey(const std::string& nodeKey) {
-    FILE* file = fopen(nodeKey.c_str(), "r");
-    if (!file) {
-        LogPrintf("Failed to open node auth key file: %s\n", nodeKey);
-        return nullptr;
-    }
-    X509* key = PEM_read_X509(file, nullptr, nullptr, nullptr);
-    fclose(file);
-    if (!key) {
-        LogPrintf("Failed to read node auth key from file: %s\n", nodeKey);
-    }
-    return key;
-}
-
-EVP_PKEY* loadPublicKey(const std::string& keyPath) {
-    FILE* file = fopen(keyPath.c_str(), "r");
-    if (!file) {
-        LogPrintf("Failed to open key file: %s\n", keyPath);
-        return nullptr;
-    }
-    EVP_PKEY* key = PEM_read_PUBKEY(file, nullptr, nullptr, nullptr);
-    fclose(file);
-    if (!key) {
-        LogPrintf("Failed to read public key from file: %s", keyPath);
-    }
-    return key;
-}
-
-std::string extractPublicKeyAsString(EVP_PKEY* pkey) {
-    BIO* bio = BIO_new(BIO_s_mem());
-    if (!bio) {
-        LogPrintf("Failed to create BIO for public key\n");
-        return "";
-    }
-    PEM_write_bio_PUBKEY(bio, pkey);
-
-    char* pubKeyCstr;
-    long pubKeyLen = BIO_get_mem_data(bio, &pubKeyCstr);
-
-    std::string pubKeyStr(pubKeyCstr, pubKeyLen);
-    BIO_free(bio);
-    return pubKeyStr;
-}
-
-std::string extractNodeKeyAsString(X509* key) {
-    BIO* bio = BIO_new(BIO_s_mem());
-    if (!bio) {
-        LogPrintf("Failed to create BIO for node auth key\n");
-        return "";
-    }
-    PEM_write_bio_X509(bio, key);
-
-    char* keyCStr;
-    long keyLen = BIO_get_mem_data(bio, &keyCStr);
-
-    std::string keyStr(keyCStr, keyLen);
-    BIO_free(bio);
-    return keyStr;
-}
-
-bool verifyNodeKeyWithTexitKey(EVP_PKEY* textKey, const std::string& authKeyStr) {
-    // Load the node auth key from the string
-    BIO* bio = BIO_new_mem_buf(const_cast<char*>(authKeyStr.data()), authKeyStr.size());
-    if (!bio) {
-        LogPrintf("Failed to create BIO for node auth key\n");
-        return false;
-    }
-    X509* authKey = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
-    if (!authKey) {
-        LogPrintf("Failed to load node auth key from string\n");
-        return false;
-    }
-
-    // Verify the node auth key
-    int result = X509_verify(authKey, textKey);
-    X509_free(authKey);
-
-    if (result != 1) {
-        LogPrintf("Failed to verify node auth key\n");
-        return false;
-    }
-
-    return true;
-}
-
 CNode* CConnman::ConnectNode(CAddress addrConnect, const char *pszDest, bool fCountFailure, ConnectionType conn_type)
 {
     assert(conn_type != ConnectionType::INBOUND);
@@ -566,61 +476,6 @@ CNode* CConnman::ConnectNode(CAddress addrConnect, const char *pszDest, bool fCo
         connected = ConnectThroughProxy(proxy, host, port, hSocket, nConnectTimeout, proxyConnectionFailed);
     }
     if (!connected) {
-        CloseSocket(hSocket);
-        return nullptr;
-    }
-
-      // Read the texitkey configuration option
-    std::string textKeyPath = gArgs.GetArg("-texitkey", "");
-    if (textKeyPath.empty()) {
-        LogPrintf("TexitCoin Key is not specified in configuration file\n");
-        return nullptr;
-    }
-    
-    // Load the root public key
-    EVP_PKEY* textKey = loadPublicKey(textKeyPath);
-    if (!textKey) {
-        LogPrint(BCLog::NET, "Failed to read TexitCoin Key\n");
-        CloseSocket(hSocket);
-        return nullptr;
-    }
-
-    // Load and verify the node auth key
-    const std::string authKeyPath = gArgs.GetArg("-authkey", "");
-    if (authKeyPath.empty()) {
-        LogPrintf("Node auth key file not specified in configuration file\n");
-        return nullptr;
-    }
-    LogPrint(BCLog::NET, "Node auth Key Path is %s\n", authKeyPath);
-
-    // Load the node auth key
-    X509* authKey = loadNodeKey(authKeyPath);
-    if (!authKey) {
-        LogPrint(BCLog::NET, "Failed to load node auth key from file\n");
-        CloseSocket(hSocket);
-        EVP_PKEY_free(textKey);
-        return nullptr;
-    }
-
-    std::string authKeyStr = extractNodeKeyAsString(authKey);
-
-    LogPrint(BCLog::NET, "Node auth key in ConnectNode:%s\nEnd\n", authKeyStr);
-    LogPrint(BCLog::NET, "Key Length in ConnectNode:%d\n", authKeyStr.size());
-
-    X509_free(authKey);
-
-    uint32_t authKeyLength = htonl(authKeyStr.size());
-    LogPrint(BCLog::NET, "Sizes in ConnectNode:%d %d\n", authKeyStr.size(), authKeyLength);
-    if (send(hSocket, &authKeyLength, sizeof(authKeyLength), 0) != sizeof(authKeyLength)) {
-        LogPrint(BCLog::NET, "Failed to send custom string length\n");
-        CloseSocket(hSocket);
-        return nullptr;
-    }
-
-    LogPrint(BCLog::NET, "Transfer Data Size in ConnectNode:%d\n", authKeyLength);
-
-    if (send(hSocket, authKeyStr.c_str(), authKeyStr.size(), 0) != authKeyStr.size()) {
-        LogPrint(BCLog::NET, "Failed to send custom string\n");
         CloseSocket(hSocket);
         return nullptr;
     }
@@ -1258,57 +1113,6 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
         CloseSocket(hSocket);
         return;
     }
-
-    uint32_t authKeyLength;
-    if (recv(hSocket, &authKeyLength, sizeof(authKeyLength), 0) != sizeof(authKeyLength)) {
-        LogPrint(BCLog::NET, "Failed to receive custom string length\n");
-        CloseSocket(hSocket);
-        return;
-    }
-    authKeyLength = ntohl(authKeyLength); // Convert from network byte order
-
-    std::vector<char> authKeyStrBuffer(authKeyLength);
-    if (recv(hSocket, authKeyStrBuffer.data(), authKeyLength, 0) != authKeyLength) {
-        LogPrint(BCLog::NET, "Failed to receive custom string\n");
-        CloseSocket(hSocket);
-        return;
-    }
-    std::string authKeyStr(authKeyStrBuffer.data(), authKeyLength);
-    LogPrint(BCLog::NET, "Node auth key in AcceptConnection:%s\nEnd\n", authKeyStr);
-    LogPrint(BCLog::NET, "Key Length in AcceptConnection:%d\n", authKeyStr.size());
-    LogPrint(BCLog::NET, "Sizes in AcceptConnection:%d %d\n", authKeyStr.size(), authKeyLength);
-
-    // Read the texitkey configuration option
-    std::string textKeyPath = gArgs.GetArg("-texitkey", "");
-    if (textKeyPath.empty()) {
-        LogPrint(BCLog::NET, "texitkey not specified in configuration file\n");
-        return;
-    }
-    LogPrint(BCLog::NET, "Root Public Key Path is %s\n", textKeyPath);
-
-    // Load the root public key
-    EVP_PKEY* textKey = loadPublicKey(textKeyPath);
-    if (!textKey) {
-        LogPrint(BCLog::NET, "Failed to load root public key from file\n");
-        CloseSocket(hSocket);
-        return;
-    }
-
-    // Verify the node auth key using public keys in string format
-    bool verified = verifyNodeKeyWithTexitKey(textKey, authKeyStr);
-    LogPrint(BCLog::NET, "Verification Result in AcceptConnection:%d\nEnd\n", verified);
-    if (verified) {
-        LogPrint(BCLog::NET, "Node auth key is verified and was signed by the root node key.\n");
-    } else {
-        LogPrint(BCLog::NET, "Failed to verify the node auth key.\n");
-        CloseSocket(hSocket);
-        return;
-    }
-
-    LogPrint(BCLog::NET, "Verification Result in AcceptConnection:%d\nEnd\n", verified);
-
-    EVP_PKEY_free(textKey);
-    LogPrint(BCLog::NET, "Verification Ended\n");
 
     // Only accept connections from discouraged peers if our inbound slots aren't (almost) full.
     bool discouraged = m_banman && m_banman->IsDiscouraged(addr);

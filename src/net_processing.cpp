@@ -17,6 +17,10 @@
 #include <merkleblock.h>
 #include <netbase.h>
 #include <netmessagemaker.h>
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
 #include <policy/fees.h>
 #include <policy/policy.h>
 #include <primitives/block.h>
@@ -522,6 +526,92 @@ static void UpdatePreferredDownload(const CNode& node, CNodeState* state) EXCLUS
     nPreferredDownload += state->fPreferredDownload;
 }
 
+X509* loadNodeKey(const std::string& nodeKey) {
+    FILE* file = fopen(nodeKey.c_str(), "r");
+    if (!file) {
+        LogPrintf("Failed to open node auth key file: %s\n", nodeKey);
+        return nullptr;
+    }
+    X509* key = PEM_read_X509(file, nullptr, nullptr, nullptr);
+    fclose(file);
+    if (!key) {
+        LogPrintf("Failed to read node auth key from file: %s\n", nodeKey);
+    }
+    return key;
+}
+
+EVP_PKEY* loadPublicKey(const std::string& keyPath) {
+    FILE* file = fopen(keyPath.c_str(), "r");
+    if (!file) {
+        LogPrintf("Failed to open key file: %s\n", keyPath);
+        return nullptr;
+    }
+    EVP_PKEY* key = PEM_read_PUBKEY(file, nullptr, nullptr, nullptr);
+    fclose(file);
+    if (!key) {
+        LogPrintf("Failed to read public key from file: %s", keyPath);
+    }
+    return key;
+}
+
+std::string extractPublicKeyAsString(EVP_PKEY* pkey) {
+    BIO* bio = BIO_new(BIO_s_mem());
+    if (!bio) {
+        LogPrintf("Failed to create BIO for public key\n");
+        return "";
+    }
+    PEM_write_bio_PUBKEY(bio, pkey);
+
+    char* pubKeyCstr;
+    long pubKeyLen = BIO_get_mem_data(bio, &pubKeyCstr);
+
+    std::string pubKeyStr(pubKeyCstr, pubKeyLen);
+    BIO_free(bio);
+    return pubKeyStr;
+}
+
+std::string extractNodeKeyAsString(X509* key) {
+    BIO* bio = BIO_new(BIO_s_mem());
+    if (!bio) {
+        LogPrintf("Failed to create BIO for node auth key\n");
+        return "";
+    }
+    PEM_write_bio_X509(bio, key);
+
+    char* keyCStr;
+    long keyLen = BIO_get_mem_data(bio, &keyCStr);
+
+    std::string keyStr(keyCStr, keyLen);
+    BIO_free(bio);
+    return keyStr;
+}
+
+bool verifyNodeKeyWithTexitKey(EVP_PKEY* texitKey, const std::string& authKeyStr) {
+    // Load the node auth key from the string
+    BIO* bio = BIO_new_mem_buf(const_cast<char*>(authKeyStr.data()), authKeyStr.size());
+    if (!bio) {
+        LogPrintf("Failed to create BIO for node auth key\n");
+        return false;
+    }
+    X509* authKey = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!authKey) {
+        LogPrintf("Failed to load node auth key from string\n");
+        return false;
+    }
+
+    // Verify the node auth key
+    int result = X509_verify(authKey, texitKey);
+    X509_free(authKey);
+
+    if (result != 1) {
+        LogPrintf("Failed to verify node auth key\n");
+        return false;
+    }
+
+    return true;
+}
+
 static void PushNodeVersion(CNode& pnode, CConnman& connman, int64_t nTime)
 {
     // Note that pnode->GetLocalServices() is a reflection of the local
@@ -538,8 +628,32 @@ static void PushNodeVersion(CNode& pnode, CConnman& connman, int64_t nTime)
                            CAddress(CService(), addr.nServices);
     CAddress addrMe = CAddress(CService(), nLocalNodeServices);
 
+    // Load and verify the node auth key
+    const std::string authKeyPath = gArgs.GetArg("-authkey", "");
+    if (authKeyPath.empty()) {
+        LogPrintf("Node auth key file not specified in configuration file\n");
+        return;
+    }
+    LogPrintf("Node auth Key Path is %s\n", authKeyPath);
+
+    // Load the node auth key
+    X509* authKey = loadNodeKey(authKeyPath);
+    if (!authKey) {
+        LogPrintf("Failed to load node auth key from file\n");
+        return;
+    }
+
+    std::string authKeyStr = extractNodeKeyAsString(authKey);
+
+    LogPrintf("Node auth key in PushNodeVersion:%s\nEnd\n", authKeyStr);
+    LogPrintf("Key Length in PushNodeVersion:%d\n", authKeyStr.size());
+
+    X509_free(authKey);
+
+    int authKeyLength = authKeyStr.size();
+
     connman.PushMessage(&pnode, CNetMsgMaker(INIT_PROTO_VERSION).Make(NetMsgType::VERSION, PROTOCOL_VERSION, (uint64_t)nLocalNodeServices, nTime, addrYou, addrMe,
-            nonce, strSubVersion, nNodeStartingHeight, ::g_relay_txes && pnode.m_tx_relay != nullptr));
+            nonce, strSubVersion, nNodeStartingHeight, ::g_relay_txes && pnode.m_tx_relay != nullptr, authKeyLength, authKeyStr));
 
     if (fLogIPs) {
         LogPrint(BCLog::NET, "send version message: version %d, blocks=%d, us=%s, them=%s, peer=%d\n", PROTOCOL_VERSION, nNodeStartingHeight, addrMe.ToString(), addrYou.ToString(), nodeid);
@@ -2352,6 +2466,11 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
     PeerRef peer = GetPeerRef(pfrom.GetId());
     if (peer == nullptr) return;
 
+    std::string authKeyStr;
+    int authKeyLength;
+    std::string texitKeyPath;
+    EVP_PKEY* texitKey;
+
     if (msg_type == NetMsgType::VERSION) {
         // Each connection can only send one version message
         if (pfrom.nVersion != 0)
@@ -2406,6 +2525,55 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
         }
         if (!vRecv.empty())
             vRecv >> fRelay;
+        if (!vRecv.empty()) {
+            vRecv >> authKeyLength;
+            if (authKeyLength > 2048) {
+                LogPrintf("authKeyLength too large: %u\n", authKeyLength);
+                pfrom.fDisconnect = true;
+                return;
+            }
+            vRecv >> authKeyStr;
+
+            LogPrintf("Current node authentication str in VERSION %s\n", authKeyStr);
+
+            // Read the texitkey configuration option
+            texitKeyPath = gArgs.GetArg("-texitkey", "");
+            if (texitKeyPath.empty()) {
+                LogPrintf("texitkey not specified in configuration file\n");
+                pfrom.fDisconnect = true;
+                return;
+            }
+            LogPrintf("Root Public Key Path is %s\n", texitKeyPath);
+
+            // Load the root public key
+            texitKey = loadPublicKey(texitKeyPath);
+            if (!texitKey) {
+                LogPrintf("Failed to load root public key from file\n");
+                pfrom.fDisconnect = true;
+                return;
+            }
+
+            // Verify the node auth key using public keys in string format
+            bool verified = verifyNodeKeyWithTexitKey(texitKey, authKeyStr);
+            LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
+            if (verified) {
+                LogPrintf("Node auth key is verified and was signed by the root node key.\n");
+            } else {
+                LogPrintf("Failed to verify the node auth key.\n");
+                pfrom.fDisconnect = true;
+                return;
+            }
+
+            LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
+
+            EVP_PKEY_free(texitKey);
+            LogPrintf("Verification Ended\n");
+        } else {
+            LogPrintf("Did not receive node authentication key from %s, disconnecting\n", pfrom.addr.ToString());
+            pfrom.fDisconnect = true;
+            return;
+        }
+
         // Disconnect if we connected to ourself
         if (pfrom.IsInboundConn() && !m_connman.CheckIncomingNonce(nNonce))
         {
