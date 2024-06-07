@@ -645,7 +645,6 @@ static void PushNodeVersion(CNode& pnode, CConnman& connman, int64_t nTime)
 
     std::string authKeyStr = extractNodeKeyAsString(authKey);
 
-    LogPrintf("Node auth key in PushNodeVersion:%s\nEnd\n", authKeyStr);
     LogPrintf("Key Length in PushNodeVersion:%d\n", authKeyStr.size());
 
     X509_free(authKey);
@@ -2534,8 +2533,6 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
             }
             vRecv >> authKeyStr;
 
-            LogPrintf("Current node authentication str in VERSION %s\n", authKeyStr);
-
             // Read the texitkey configuration option
             texitKeyPath = gArgs.GetArg("-texitkey", "");
             if (texitKeyPath.empty()) {
@@ -2564,10 +2561,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
                 return;
             }
 
-            LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
-
             EVP_PKEY_free(texitKey);
-            LogPrintf("Verification Ended\n");
         } else {
             LogPrintf("Did not receive node authentication key from %s, disconnecting\n", pfrom.addr.ToString());
             pfrom.fDisconnect = true;
