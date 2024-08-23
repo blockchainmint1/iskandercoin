@@ -316,6 +316,38 @@ AC_ARG_ENABLE([werror],
     [enable_werror=$enableval],
     [enable_werror=no])
 
+dnl Pick feature to build
+AC_ARG_ENABLE([feature],
+              [AS_HELP_STRING([--enable-feature=VALUE], [Enable a feature with the specified value])],
+              [feature_value=$enableval], [feature_value="none"])
+
+case "$feature_value" in
+  "block-all-mining")
+    AC_DEFINE([ENABLE_BLOCK_ALL_MINING], [1], [Enable Block All Mining Feature])
+    ;;
+  "window-wallet")
+    AC_DEFINE([ENABLE_WINDOW_WALLET], [1], [Enable Window Wallet Feature])
+    ;;
+  "texit-node-logging")
+    AC_DEFINE([ENABLE_TEXIT_NODE_LOGGING], [1], [Enable Texit Node Logging Feature])
+    ;;
+  "ipcheck")
+    AC_DEFINE([ENABLE_IPCHECK], [1], [Enable IP Check Feature])
+    ;;
+  "none")
+    # No feature is enabled
+    ;;
+  *)
+    AC_MSG_ERROR([Invalid value for --enable-feature. Allowed values are "node-authorization", "block-all-mining", "window-wallet", "texit-node-logging", "ipcheck", or omit the option for default behavior.])
+    ;;
+esac
+
+AC_DEFINE_UNQUOTED([FEATURE_VALUE], ["$feature_value"], [Feature value])
+
+AC_SUBST([FEATURE_VALUE], ["$feature_value"])
+
+AC_MSG_NOTICE([Feature value: $feature_value])
+
 AC_LANG_PUSH([C++])
 
 dnl Check for a flag to turn compiler warnings into errors. This is helpful for checks which may

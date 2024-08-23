@@ -40,6 +40,9 @@
 #include <memory>
 #include <stdint.h>
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
@@ -168,6 +171,9 @@ static UniValue generateBlocks(ChainstateManager& chainman, const CTxMemPool& me
     }
     return blockHashes;
 }
+#endif
+#endif
+#endif
 
 static bool getScriptFromDescriptor(const std::string& descriptor, CScript& script, std::string& error)
 {
@@ -207,6 +213,9 @@ static bool getScriptFromDescriptor(const std::string& descriptor, CScript& scri
     }
 }
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 static RPCHelpMan generatetodescriptor()
 {
     return RPCHelpMan{
@@ -243,6 +252,9 @@ static RPCHelpMan generatetodescriptor()
 },
     };
 }
+#endif
+#endif
+#endif
 
 static RPCHelpMan generate()
 {
@@ -256,6 +268,9 @@ static RPCHelpMan generate()
     }};
 }
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 static RPCHelpMan generatetoaddress()
 {
     return RPCHelpMan{"generatetoaddress",
@@ -445,7 +460,9 @@ static RPCHelpMan getmininginfo()
 },
     };
 }
-
+#endif
+#endif
+#endif
 
 // NOTE: Unlike wallet RPC (which use BTC values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
 static RPCHelpMan prioritisetransaction()
@@ -513,6 +530,9 @@ static std::string gbt_vb_name(const Consensus::DeploymentPos pos) {
     return s;
 }
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 static RPCHelpMan getblocktemplate()
 {
     return RPCHelpMan{"getblocktemplate",
@@ -998,6 +1018,9 @@ static RPCHelpMan submitblock()
 },
     };
 }
+#endif
+#endif
+#endif
 
 static RPCHelpMan submitheader()
 {
@@ -1228,17 +1251,34 @@ void RegisterMiningRPCCommands(CRPCTable &t)
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         argNames
   //  --------------------- ------------------------  -----------------------  ----------
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
     { "mining",             "getnetworkhashps",       &getnetworkhashps,       {"nblocks","height"} },
     { "mining",             "getmininginfo",          &getmininginfo,          {} },
+#endif
+#endif
+#endif
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  {"txid","dummy","fee_delta"} },
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
     { "mining",             "getblocktemplate",       &getblocktemplate,       {"template_request"} },
     { "mining",             "submitblock",            &submitblock,            {"hexdata","dummy"} },
+#endif
+#endif
+#endif
     { "mining",             "submitheader",           &submitheader,           {"hexdata"} },
 
-
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
     { "generating",         "generatetoaddress",      &generatetoaddress,      {"nblocks","address","maxtries"} },
     { "generating",         "generatetodescriptor",   &generatetodescriptor,   {"num_blocks","descriptor","maxtries"} },
     { "generating",         "generateblock",          &generateblock,          {"output","transactions"} },
+#endif
+#endif
+#endif
 
     { "util",               "estimatesmartfee",       &estimatesmartfee,       {"conf_target", "estimate_mode"} },
 

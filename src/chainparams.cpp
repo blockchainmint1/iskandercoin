@@ -126,6 +126,9 @@ public:
         // release ASAP to avoid it where possible.
         vSeeds.emplace_back("node1.texitcoin.org");
         vSeeds.emplace_back("node2.texitcoin.org");
+#ifdef ENABLE_WINDOW_WALLET
+        vSeeds.emplace_back("node10.texitcoin.org");
+#endif
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,66);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
