@@ -1290,6 +1290,9 @@ void AuxMiningCheck(const NodeContext& node)
   }
 }
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 static
 UniValue AuxMiningCreateBlock(const util::Ref& context, const CScript& scriptPubKey)
 {
@@ -1368,7 +1371,13 @@ UniValue AuxMiningCreateBlock(const util::Ref& context, const CScript& scriptPub
 
     return result;
 }
+#endif
+#endif
+#endif
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 static
 bool AuxMiningSubmitBlock(const util::Ref& context, const std::string& hashHex, const std::string& auxpowHex)
 {
@@ -1403,6 +1412,9 @@ bool AuxMiningSubmitBlock(const util::Ref& context, const std::string& hashHex, 
 
     return fAccepted;
 }
+#endif
+#endif
+#endif
 
 //UniValue getauxblock(const JSONRPCRequest& request)
 //{
@@ -1460,6 +1472,9 @@ bool AuxMiningSubmitBlock(const util::Ref& context, const std::string& hashHex, 
 //    return fAccepted;
 //}
 
+#ifndef ENABLE_BLOCK_ALL_MINING
+#ifndef ENABLE_WINDOW_WALLET
+#ifndef ENABLE_TEXIT_NODE_LOGGING
 UniValue createauxblock(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
@@ -1512,6 +1527,9 @@ UniValue submitauxblock(const JSONRPCRequest& request)
 
     return AuxMiningSubmitBlock(request.context, request.params[0].get_str(), request.params[1].get_str());
 }
+#endif
+#endif
+#endif
 
 void RegisterMiningRPCCommands(CRPCTable &t)
 {
