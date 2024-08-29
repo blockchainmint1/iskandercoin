@@ -7,6 +7,7 @@
 
 #include <fs.h>
 
+#include <algorithm>
 #include <random.h>
 #include <rpc/protocol.h>
 #include <util/system.h>
@@ -190,7 +191,7 @@ void JSONRPCRequest::parse(const UniValue& valRequest)
     strMethod = valMethod.get_str();
     if (fLogIPs)
         LogPrint(BCLog::RPC, "ThreadRPCServer method=%s user=%s peeraddr=%s\n", SanitizeString(strMethod),
-            this->authUser, this->peerAddr);
+                 this->authUser, this->peerAddr);
     else
         LogPrint(BCLog::RPC, "ThreadRPCServer method=%s user=%s\n", SanitizeString(strMethod), this->authUser);
 

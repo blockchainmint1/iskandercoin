@@ -153,6 +153,7 @@ libmw_a_SOURCES = \
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
+  auxpow.h \
   attributes.h \
   banman.h \
   base58.h \
@@ -232,6 +233,8 @@ BITCOIN_CORE_H = \
   policy/rbf.h \
   policy/settings.h \
   pow.h \
+  primitives/block.h \
+  primitives/pureheader.h \
   protocol.h \
   psbt.h \
   random.h \
@@ -553,6 +556,8 @@ libbitcoin_consensus_a_SOURCES = \
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
+  arith_uint256.cpp \
+  auxpow.cpp \
   base58.cpp \
   bech32.cpp \
   bloom.cpp \
@@ -568,6 +573,9 @@ libbitcoin_common_a_SOURCES = \
   netaddress.cpp \
   netbase.cpp \
   net_permissions.cpp \
+  primitives/block.cpp \
+  primitives/pureheader.cpp \
+  primitives/transaction.cpp \
   outputtype.cpp \
   policy/feerate.cpp \
   policy/policy.cpp \
