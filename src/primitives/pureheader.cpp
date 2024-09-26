@@ -3,12 +3,12 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "primitives/pureheader.h"
+#include <primitives/pureheader.h>
 
-#include "chainparams.h"
-#include "crypto/scrypt.h"
-#include "hash.h"
-#include "util/strencodings.h"
+#include <chainparams.h>
+#include <crypto/scrypt.h>
+#include <hash.h>
+#include <util/strencodings.h>
 #include <logging.h>
 
 void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)

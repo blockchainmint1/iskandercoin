@@ -100,10 +100,10 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000200020");
         consensus.defaultAssumeValid = uint256S("0xb628195b74011675c216718bba39e04b631c1c82c060e8ee3e975ea87377b8ca"); 
 
-        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
-        consensus.nAuxpowStartHeight = 20;
+        consensus.nAuxpowChainId = 0x62; // 98 - Josh Wise!
+        consensus.nAuxpowStartHeight = 73000;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 371337;
+        consensus.nLegacyBlocksBefore = 73000;
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -302,9 +302,10 @@ public:
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
 
-        consensus.nAuxpowStartHeight = 20;
+        consensus.nAuxpowChainId = 0x62; // 98 - Josh Wise!
+        consensus.nAuxpowStartHeight = 30;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 0;
+        consensus.nLegacyBlocksBefore = 30;
         
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
