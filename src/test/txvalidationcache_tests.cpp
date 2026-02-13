@@ -58,7 +58,7 @@ BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain100Setup)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     // Test 1: block with both of those transactions should be rejected.
     block = CreateAndProcessBlock(spends, scriptPubKey);
     {
@@ -226,7 +226,7 @@ BOOST_FIXTURE_TEST_CASE(checkinputs_test, TestChain100Setup)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     // And if we produce a block with this tx, it should be valid (DERSIG not
     // enabled yet), even though there's no cache entry.
     CBlock block;

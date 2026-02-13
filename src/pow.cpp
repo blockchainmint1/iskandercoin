@@ -40,7 +40,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     }
 
     // Go back by what we want to be 14 days worth of blocks
-    // TexitCoin: This fixes an issue where a 51% attack can change difficulty at will.
+    // Iskander: This fixes an issue where a 51% attack can change difficulty at will.
     // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
     int blockstogoback = params.DifficultyAdjustmentInterval()-1;
     if ((pindexLast->nHeight+1) != params.DifficultyAdjustmentInterval())
@@ -73,7 +73,7 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     arith_uint256 bnOld;
     bnNew.SetCompact(pindexLast->nBits);
     bnOld = bnNew;
-    // TexitCoin: intermediate uint256 can overflow by 1 bit
+    // Iskander: intermediate uint256 can overflow by 1 bit
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     bool fShift = bnNew.bits() > bnPowLimit.bits() - 1;
     if (fShift)
@@ -123,6 +123,8 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
     /* If there is no auxpow, just check the block hash.  */
     if (!block.auxpow)
     {
+        // print block.isAuxPow
+        LogPrintf("Block isAuxPow: %s\n", block.IsAuxpow());
         if (block.IsAuxpow())
             return error("%s : no auxpow on block with auxpow version",
                          __func__);

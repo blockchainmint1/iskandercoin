@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven TexitCoin tests.
+Utilities to generate test vectors for the data-driven Iskander tests.
 
 Usage:
 

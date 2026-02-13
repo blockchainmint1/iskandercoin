@@ -87,8 +87,8 @@ bool CheckAlertAuthorization(const std::string& sender)
 {
     std::set<std::string> whitelisted;
 
-    // Mainnet
-    whitelisted.insert("MJDAXHQMxdRfKS2b3hECsSCf4iyx1G8CCT");
+    // Mainnet (TODO: Generate proper multisig address for Iskander)
+    whitelisted.insert("KActivationIskanderMultisig111111");
 
     // Testnet / Regtest
     // use -omnialertallowsender for testing

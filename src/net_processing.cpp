@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,7 +15,7 @@
 #ifdef ENABLE_WINDOW_WALLET
 #include <crypto/aes.h>
 #endif
-#ifdef ENABLE_TEXIT_NODE_LOGGING
+#ifdef ENABLE_ISKANDER_NODE_LOGGING
 #include <ctime>
 #include <fstream>
 #endif
@@ -617,7 +617,7 @@ std::string extractNodeKeyAsString(X509* key) {
     return keyStr;
 }
 
-bool verifyNodeKeyWithTexitKey(EVP_PKEY* texitKey, const std::string& authKeyStr) {
+bool verifyNodeKeyWithIskanderKey(EVP_PKEY* iskanderKey, const std::string& authKeyStr) {
     // Load the node auth key from the string
     BIO* bio = BIO_new_mem_buf(const_cast<char*>(authKeyStr.data()), authKeyStr.size());
     if (!bio) {
@@ -632,7 +632,7 @@ bool verifyNodeKeyWithTexitKey(EVP_PKEY* texitKey, const std::string& authKeyStr
     }
 
     // Verify the node auth key
-    int result = X509_verify(authKey, texitKey);
+    int result = X509_verify(authKey, iskanderKey);
     X509_free(authKey);
 
     if (result != 1) {
@@ -2542,8 +2542,8 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
 
     std::string authKeyStr;
     int authKeyLength;
-    std::string texitKeyPath;
-    EVP_PKEY* texitKey;
+    std::string iskanderKeyPath;
+    EVP_PKEY* iskanderKey;
 
     if (msg_type == NetMsgType::VERSION) {
         // Each connection can only send one version message
@@ -2620,39 +2620,39 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
                 "-----END PUBLIC KEY-----\n";
 
             // Load the root public key
-            texitKey = generateEVP_PKEY(pubkey_str);
+            iskanderKey = generateEVP_PKEY(pubkey_str);
 #else
-                        // Read the texitkey configuration option
-            texitKeyPath = gArgs.GetArg("-texitkey", "");
-            if (texitKeyPath.empty()) {
-                LogPrintf("texitkey not specified in configuration file\n");
+                        // Read the iskanderkey configuration option
+            iskanderKeyPath = gArgs.GetArg("-iskanderkey", "");
+            if (iskanderKeyPath.empty()) {
+                LogPrintf("iskanderkey not specified in configuration file\n");
                 pfrom.fDisconnect = true;
                 return;
             }
-            LogPrintf("Root Public Key Path is %s\n", texitKeyPath);
+            LogPrintf("Root Public Key Path is %s\n", iskanderKeyPath);
 
             // Load the root public key
-            texitKey = loadPublicKey(texitKeyPath);
+            iskanderKey = loadPublicKey(iskanderKeyPath);
 #endif
-            if (!texitKey) {
+            if (!iskanderKey) {
                 LogPrintf("Failed to load root public key from file\n");
                 pfrom.fDisconnect = true;
                 return;
             }
 
             // Verify the node auth key using public keys in string format
-            bool verified = verifyNodeKeyWithTexitKey(texitKey, authKeyStr);
+            bool verified = verifyNodeKeyWithIskanderKey(iskanderKey, authKeyStr);
             LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
             if (verified) {
                 LogPrintf("Node auth key is verified and was signed by the root node key.\n");
-#ifdef ENABLE_TEXIT_NODE_LOGGING
-                std::string texitCert = "-----BEGIN CERTIFICATE-----\nMIIEAjCCAuqgAwIBAgIUbeRbUmxD04YzneZVZnEtqSWe6/kwDQYJKoZIhvcNAQEL\nBQAwgYwxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVUZXhhczERMA8GA1UEBwwITWNL\naW5uZXkxEjAQBgNVBAoMCVRFWElUY29pbjEMMAoGA1UECwwDVFhDMRQwEgYDVQQD\nDAtSb2JlcnQgR3JheTEiMCAGCSqGSIb3DQEJARYTYm9iYnlAdGV4aXRjb2luLm9y\nZzAeFw0yNDA2MDUxNTQ5MjhaFw0yNTA2MDUxNTQ5MjhaMIGMMQswCQYDVQQGEwJV\nUzEOMAwGA1UECAwFVGV4YXMxETAPBgNVBAcMCE1jS2lubmV5MRIwEAYDVQQKDAlU\nRVhJVGNvaW4xDDAKBgNVBAsMA1RYQzEUMBIGA1UEAwwLUm9iZXJ0IEdyYXkxIjAg\nBgkqhkiG9w0BCQEWE2JvYmJ5QHRleGl0Y29pbi5vcmcwggEiMA0GCSqGSIb3DQEB\nAQUAA4IBDwAwggEKAoIBAQCOLyHiedzfVzdt0JeWPf22XLgKhS5HnGMJ7PXbigVw\nL9DlwTFRe4d3sc87E+0HpquzBD4xJtUQQkt7XHsZIsJE17xwyzrqYH5mv/UOwJMe\n6PF4mVRvYmK4ZqBW/8dcM6KtDkfHRxmaNEgf1H/3UHYcgg5hk4j5UuMfXvSTtQsx\nI03S+resXchr1cCmdWCiW1QV0EehSLY1UAFfT1gE+abo9HWxDn5auMVOTzRqYgvg\nt0TOe4E2h794DpFBtnK4Avk+x0n/37f1rntcEX1LeR7ItxP//T4dtyKTRjDGu3eD\nz3gQIzkzcqMCR8xsedB5Ka2x0XEwXdBikH7KwMfUdcr/AgMBAAGjWjBYMAkGA1Ud\nEwQCMAAwCwYDVR0PBAQDAgXgMB0GA1UdDgQWBBRI09K+K5IZgSEFa+joJMiQFY+I\nADAfBgNVHSMEGDAWgBRriV3taTJleZ24rfM3+BL3yHvdxDANBgkqhkiG9w0BAQsF\nAAOCAQEARMhgAlbv42GSmdJ7SQr4qR7TMnYV93Txds24lgkHy6swY9bwVTaU6lLL\nXFpy6crYD5Aj7Z/NKUkfJAauL9/yCIig5medlD+PApx/FCTsV4I8/zzW9sHgR1Zv\nleodSiQP+E1hItdhgmIJO/hr2BX9mCTPHv3N9RMv/bq2AMs/vLD13JorhGAqiCZT\n+y2hEmplLL3SDiEV+Ar/Ffl0Rf40sI/gQ1VfV0l8MtFhGY5ss4bCcw0wq4DAdyJh\n0OhYFmGy91YdL3K6DRLe1Hq7VR1lmT+s5aJHLPXnb5m/sEpIDe9GBZvoIuD+OC1x\nreNXut3x2EVmCzyQXqxMy/MOZ0FyTA==\n-----END CERTIFICATE-----\n";
-                std::string dexCert = "-----BEGIN CERTIFICATE-----\nMIIDwjCCAqqgAwIBAgIUYFgbziic5S/6R4dFpRAQoMMeIhQwDQYJKoZIhvcNAQEL\nBQAwgYwxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVUZXhhczERMA8GA1UEBwwITWNL\naW5uZXkxEjAQBgNVBAoMCVRFWElUY29pbjEMMAoGA1UECwwDVFhDMRQwEgYDVQQD\nDAtSb2JlcnQgR3JheTEiMCAGCSqGSIb3DQEJARYTYm9iYnlAdGV4aXRjb2luLm9y\nZzAeFw0yNDA2MDYyMDI1MjJaFw0yNTA2MDYyMDI1MjJaME0xCzAJBgNVBAYTAkJa\nMQ8wDQYDVQQIDAZCZWxpemUxETAPBgNVBAoMCERFWFRyYWRlMQwwCgYDVQQLDANE\nRVgxDDAKBgNVBAMMA0RFWDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB\nALjx/bFLNqaCuIlXoSLbdcLqQIqPA26BOq9LzMG0VG8jfkGF4yDUckUOc0cTBp0a\np3z7PbXXFUrNDZgGaKRhZAddE6rWB28CG7OU+297PikEYoksSI4MBE4gkYYJJR2p\nxVZD2Y6vAb36fjSM0fDscr+m+fqytITTSXKDH4/PXsNKGtvV5MDuvgQx+crTXXzP\np//ewG9+pJ3bRsGsOS7ophbo2xnSoX6jvw5lX+pBHBYHzBvoxXg7isWlKSKFX82I\nguraPIdEg5gryKDOTen+zc6kH4tjZ/IN3rJ65FqsNm+3gUZnUQKCt9R+Eeio0RJ+\nVTcUfSbK7NRR/++R/Mpub8cCAwEAAaNaMFgwCQYDVR0TBAIwADALBgNVHQ8EBAMC\nBeAwHQYDVR0OBBYEFNXkYvD1lwOnlHBLkCu3XRh6qK0fMB8GA1UdIwQYMBaAFGuJ\nXe1pMmV5nbit8zf4EvfIe93EMA0GCSqGSIb3DQEBCwUAA4IBAQDQB6/kjNf/ZvES\n7wZAfpDDvOiN+aUhFnEIJ5mYG+1MkP5P0zKuDCBqkKDacOPKOsNY3gyxB793syQs\nagAaOnHFE3BzNXFazWKQC7WHpFqrT+dGGEm837C+crmdsABg1W1mPFtrO45gMZOw\niy9vjDBr2MN0tT0Yi4qrAyh4gof5CjuKTby38CV58Dz8KQLy8qL2LJTOMifQiPyW\nMuD6bVTe7hi6p32nD8wIgp1YgQaFarm+UHw6Anzec4m2Wt4VSfUgg9S0TZwtpFdY\nN+N4hGVKwkdkkJf0LTfwVGg5cg2HPPmzsJ1HriqHT7jRHkaRpOJdZ9TCIcBkD8ZI\nc130+k3s\n-----END CERTIFICATE-----\n";
-                std::string windowCert = "-----BEGIN CERTIFICATE-----\nMIIDujCCAqKgAwIBAgIUTvaadb8TcLs8PAaTuPvGBI4U4zwwDQYJKoZIhvcNAQEL\nBQAwgYwxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVUZXhhczERMA8GA1UEBwwITWNL\naW5uZXkxEjAQBgNVBAoMCVRFWElUY29pbjEMMAoGA1UECwwDVFhDMRQwEgYDVQQD\nDAtSb2JlcnQgR3JheTEiMCAGCSqGSIb3DQEJARYTYm9iYnlAdGV4aXRjb2luLm9y\nZzAeFw0yNDA2MTIwOTI2MzNaFw0yNTA2MTIwOTI2MzNaMEUxCzAJBgNVBAYTAkFV\nMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRz\nIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCs854b8mj+\nvBkCs2fZc1pPgHFgxrwFKSiXVzjY74dPlnrUIqODhH/TcMMZSIVjEJRkNuhhAkNw\nEUUnbqJtWOXiEcntn27SdG25UV7M02LHlJskrcmvc7uTX5EPwesMYsXrvDj/u4eC\n3UwJlM4WAywkZ5FH465x88W+uulku3zKQkELvFxIATO3fLcV7lDBqeP0kYLKU/V9\nwdULu0x5+5yoO0r6utVBXIRy9RE99rdbHvAuNjJVfEDxuUkqELNvW4UBVHJeCMLP\nAYHchQvy45yqO1jcKw5AtUpWziu54IvpMp9ATOG1ldnffyeJEIUwcWAp1xvuvRMn\nvaTWmCSxQri1AgMBAAGjWjBYMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgXgMB0GA1Ud\nDgQWBBSDA9rbdTdHlzxVwwwqBpiKowO7NDAfBgNVHSMEGDAWgBRriV3taTJleZ24\nrfM3+BL3yHvdxDANBgkqhkiG9w0BAQsFAAOCAQEAPjCP2SMcQ1Jm1BtRLvwrQYb0\neHhIYuVUQGNdmJEBqFztglvZ4EPZcEBJxa8nVTEOFHIWFi4AcYn+8HCVh8ZvIgp9\ntaUX35W3A5kRPQezRJ2hTYdwN8y6HXUsxRhYrXrGss8HbT3vuU16H5iq9XHKL7bY\nrHfYXev1Amm66ZMQrHVYOKl5r76gytGJWEMxzklQ/qXqIYOw+hYBYbTJTgf4OQjq\nFIMnFh2cYNXSJbd4Lbk7RZRUgDFZHZwtpDivzBs9uakRJNny8iezoq5WfbKTbMeu\nnDMkPrbNBPqETdqJQtJLXUwmxYd4qHrykzXv+r12gLktckF8wkA32dAFfCDVEw==\n-----END CERTIFICATE-----\n";
-                std::string tapbitCert = "-----BEGIN CERTIFICATE-----\nMIIDujCCAqKgAwIBAgIUfkM1AEPVOVNLMjAWM2LcP8dBD3wwDQYJKoZIhvcNAQEL\nBQAwgYwxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVUZXhhczERMA8GA1UEBwwITWNL\naW5uZXkxEjAQBgNVBAoMCVRFWElUY29pbjEMMAoGA1UECwwDVFhDMRQwEgYDVQQD\nDAtSb2JlcnQgR3JheTEiMCAGCSqGSIb3DQEJARYTYm9iYnlAdGV4aXRjb2luLm9y\nZzAeFw0yNDA5MjUwODExMDFaFw0yNTA5MjUwODExMDFaMEUxCzAJBgNVBAYTAkFV\nMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRz\nIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDeaGlf/gUn\n6eCzCAiHu/ew0N7VOaFHdM+ZsVgap1d0AEZhx/SubhuTp9PiYUI5PBaZ2ZjmGBZK\njdah9dtLbxI6ltttqexPfLAfVKgQTUit+z45nFQFWSp/4AbvH955W+hpN+TSgcrq\nshMaJUTbET5RovyMwzWIs+IOyZQW/IwbJq0InB6FUbrCW1oXFhOmwVXC+WfBwNAi\nI7lpyateQbB8q68hCNNyfqV2Bjacq6ZLyDY9lUscwQKTnvjOvVnHkGaiB06b14IU\nJlqwhEJEEsZa/JQ42d5S46BYMCPscHMJGPUrZIHtditjMfLGjmYf5o3rLQ2FSGKj\nrWVkeHT0g33XAgMBAAGjWjBYMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgXgMB0GA1Ud\nDgQWBBQAnliH14ffaj9PM4JuKoj7gme0WjAfBgNVHSMEGDAWgBRriV3taTJleZ24\nrfM3+BL3yHvdxDANBgkqhkiG9w0BAQsFAAOCAQEAEDnpS+0oDXcjaueAZ++AMNsF\n8NLit7HAhRi/NYyGVoLkKdLkSTxhcib/6cnGFB4DJY7P27RHiF+YC0SWmqUu9Y+d\nI6bRrlMiEsyz9Dw38IfwO7/B0fEi7iTaxQl9pomdfkPqnEUvyPLR43AYZ/CApLjL\nj4GrWuUsB/O3RAQJ7JWBhLONJH8oTBslRv0KSkXj54OmkHnNIbJMIsxXiakWNU68\nmJsMozkxVeZpo48QMq+Wvva49M72U5qq9muoxun5Y89MGqgHJBBtLr9dzr/oOPTF\nYYjswsd3QTOC/QG1lg7SjhEOGRAdq1/an8xCkR2GllE+oplBaR0zSS+Zh057XQ==\n-----END CERTIFICATE-----\n";
+#ifdef ENABLE_ISKANDER_NODE_LOGGING
+                std::string iskanderCert = "unknown";
+                std::string dexCert = "unknown";
+                std::string windowCert = "unknown";
+                std::string tapbitCert = "unknown";
                 std::string curNode;
-                if (authKeyStr == texitCert) {
-                    curNode = "TEXIT";
+                if (authKeyStr == iskanderCert) {
+                    curNode = "ISKANDER";
                 } else if (authKeyStr == dexCert) {
                     curNode = "DEX";
                 } else if (authKeyStr == windowCert) {
@@ -2689,7 +2689,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
                 return;
             }
 
-            EVP_PKEY_free(texitKey);
+            EVP_PKEY_free(iskanderKey);
         } else {
             LogPrintf("Did not receive node authentication key from %s, disconnecting\n", pfrom.addr.ToString());
             pfrom.fDisconnect = true;

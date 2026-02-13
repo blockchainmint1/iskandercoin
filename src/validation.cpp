@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -655,7 +655,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
                 // insecure.
                 bool fReplacementOptOut = true;
 
-                // TexitCoin: Only support BIP125 RBF when -mempoolreplacement arg is set
+                // Iskander: Only support BIP125 RBF when -mempoolreplacement arg is set
                 if (gArgs.GetArg("-mempoolreplacement", DEFAULT_ENABLE_REPLACEMENT)) {
                     for (const CTxIn &_txin : ptxConflicting->vin)
                     {
@@ -1349,7 +1349,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 254 * COIN;
+    CAmount nSubsidy = 312 * COIN; // 312 ISK block reward
     nSubsidy >>= halvings;
     return nSubsidy;
 }

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef TEXITCOIN_MWEB_MODELS_H
-#define TEXITCOIN_MWEB_MODELS_H
+#ifndef ISKANDER_MWEB_MODELS_H
+#define ISKANDER_MWEB_MODELS_H
 
 #include <amount.h>
 #include <mw/models/block/Block.h>
@@ -232,4 +232,4 @@ struct Tx {
 
 } // namespace MWEB
 
-#endif // TEXITCOIN_MWEB_MODELS_H
+#endif // ISKANDER_MWEB_MODELS_H

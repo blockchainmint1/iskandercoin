@@ -1,26 +1,26 @@
-TexitCoin Core integration/staging tree
+Iskander Core integration/staging tree
 =====================================
 
-[![Build Status](https://travis-ci.org/texitcoin-project/texitcoin.svg?branch=master)](https://travis-ci.org/texitcoin-project/texitcoin)
+[![Build Status](https://travis-ci.org/iskander-project/iskander.svg?branch=master)](https://travis-ci.org/iskander-project/iskander)
 
-https://texitcoin.org
+https://iskander.org
 
-What is TexitCoin?
+What is Iskander?
 ----------------
 
-TexitCoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. TexitCoin uses peer-to-peer technology to operate
+Iskander is an experimental digital currency that enables instant payments to
+anyone, anywhere in the world. Iskander uses peer-to-peer technology to operate
 with no central authority: managing transactions and issuing money are carried
-out collectively by the network. TexitCoin Core is the name of open source
+out collectively by the network. Iskander Core is the name of open source
 software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the TexitCoin Core software, see [https://texitcoin.org](https://texitcoin.org).
+the Iskander Core software, see [https://iskander.org](https://iskander.org).
 
 License
 -------
 
-TexitCoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+Iskander Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
@@ -28,9 +28,9 @@ Development Process
 
 The `master` branch is regularly built (see `doc/build-*.md` for instructions) and tested, but it is not guaranteed to be
 completely stable. [Tags](/tags) are created
-regularly from release branches to indicate new official, stable release versions of TexitCoin Core.
+regularly from release branches to indicate new official, stable release versions of Iskander Core.
 
-The https://github.com/texitcoin-project/gui repository is used exclusively for the
+The https://github.com/iskander-project/gui repository is used exclusively for the
 development of the GUI. Its master branch is identical in all monotree
 repositories. Release branches and tags do not exist, so please do not fork
 that repository unless it is for development reasons.
@@ -38,11 +38,11 @@ that repository unless it is for development reasons.
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md)
 and useful hints for developers can be found in [doc/developer-notes.md](doc/developer-notes.md).
 
-The developer [mailing list](https://groups.google.com/forum/#!forum/texitcoin-dev)
+The developer [mailing list](https://groups.google.com/forum/#!forum/iskander-dev)
 should be used to discuss complicated or controversial changes before working
 on a patch set.
 
-Developer IRC can be found on Freenode at #texitcoin-dev.
+Developer IRC can be found on Freenode at #iskander-dev.
 
 Testing
 -------
@@ -76,7 +76,7 @@ Translations
 ------------
 
 We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-Translations are converted to TexitCoin periodically.
+Translations are converted to Iskander periodically.
 
 Translations are periodically pulled from Transifex and merged into the git repository. See the
 [translation process](doc/translation_process.md) for details on how this works.

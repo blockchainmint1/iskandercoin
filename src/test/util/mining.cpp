@@ -16,7 +16,7 @@
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 CTxIn generatetoaddress(const NodeContext& node, const std::string& address)
 {
     const auto dest = DecodeDestination(address);

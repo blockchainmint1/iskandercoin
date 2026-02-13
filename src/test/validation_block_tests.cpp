@@ -67,7 +67,7 @@ std::shared_ptr<CBlock> MinerTestingSetup::Block(const uint256& prev_hash)
     CScript pubKey;
     pubKey << i++ << OP_TRUE;
 
-#if defined(ENABLE_BLOCK_ALL_MINING) || defined(ENABLE_WINDOW_WALLET)  || defined(ENABLE_TEXIT_NODE_LOGGING)
+#if defined(ENABLE_BLOCK_ALL_MINING) || defined(ENABLE_WINDOW_WALLET)  || defined(ENABLE_ISKANDER_NODE_LOGGING)
     return nullptr;
 #else
     auto ptemplate = BlockAssembler(*m_node.mempool, Params()).CreateNewBlock(pubKey);
@@ -344,7 +344,7 @@ BOOST_AUTO_TEST_CASE(mempool_locks_reorg)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 BOOST_AUTO_TEST_CASE(witness_commitment_index)
 {
     CScript pubKey;

@@ -75,14 +75,14 @@ using namespace mastercore;
 CCriticalSection cs_tally;
 
 //! Exodus address (changes based on network)
-static std::string exodus_address = "LTceXoduS2cetpWJSe47M25i5oKjEccN1h";
+static std::string exodus_address = "KExodusIskanderBurnAddress1111111";
 
-//! Mainnet Exodus address
-static const std::string exodus_mainnet = "LTceXoduS2cetpWJSe47M25i5oKjEccN1h";
-//! Testnet Exodus address
-static const std::string exodus_testnet = "QeVAq4mudsSSvyM6mBkd7cUuPsgBBrLq83";
-//! Regtest Exodus address
-static const std::string exodus_regtest = "QMSH3Dp8raecReSw7hBbbCCfDpUGXQUz1m";
+//! Mainnet Exodus address (TODO: Generate proper burn address)
+static const std::string exodus_mainnet = "KExodusIskanderBurnAddress1111111";
+//! Testnet Exodus address (TODO: Generate proper burn address)
+static const std::string exodus_testnet = "kExodusIskanderTestBurnAddr11111";
+//! Regtest Exodus address (TODO: Generate proper burn address)
+static const std::string exodus_regtest = "kExodusIskanderRegtestBurn111111";
 
 static int nWaterlineBlock = 0;
 

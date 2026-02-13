@@ -71,11 +71,11 @@ def download_binary(tag, args) -> int:
             return 0
         shutil.rmtree(tag)
     Path(tag).mkdir()
-    release_path = 'texitcoin-{}'.format(tag[1:])
+    release_path = 'iskander-{}'.format(tag[1:])
     os = 'linux' # TODO
-    tarball = 'texitcoin-{tag}-{platform}.tar.gz'.format(
+    tarball = 'iskander-{tag}-{platform}.tar.gz'.format(
         tag=tag[1:], platform=args.platform)
-    tarballUrl = 'https://download.texitcoin.org/{release_path}/{os}/{tarball}'.format(
+    tarballUrl = 'https://download.iskander.org/{release_path}/{os}/{tarball}'.format(
         release_path=release_path, os=os, tarball=tarball)
 
     print('Fetching: {tarballUrl}'.format(tarballUrl=tarballUrl))
@@ -108,7 +108,7 @@ def download_binary(tag, args) -> int:
     # Extract tarball
     ret = subprocess.run(['tar', '-zxf', tarball, '-C', tag,
                           '--strip-components=1',
-                          'texitcoin-{tag}'.format(tag=tag[1:])]).returncode
+                          'iskander-{tag}'.format(tag=tag[1:])]).returncode
     if ret:
         return ret
 
@@ -161,7 +161,7 @@ def build_release(tag, args) -> int:
         # Move binaries, so they're in the same place as in the
         # release download
         Path('bin').mkdir(exist_ok=True)
-        files = ['texitcoind', 'texitcoin-cli', 'texitcoin-tx']
+        files = ['iskanderd', 'iskander-cli', 'iskander-tx']
         for f in files:
             Path('src/'+f).rename('bin/'+f)
     return 0

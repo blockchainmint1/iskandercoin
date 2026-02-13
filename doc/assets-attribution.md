@@ -1,1 +1,1 @@
-The list of assets used in the texitcoin source and their attribution can now be found in [contrib/debian/copyright](../contrib/debian/copyright).
+The list of assets used in the iskander source and their attribution can now be found in [contrib/debian/copyright](../contrib/debian/copyright).

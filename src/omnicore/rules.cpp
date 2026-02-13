@@ -451,8 +451,6 @@ std::string GetFeatureName(uint16_t featureId)
  */
 bool IsFeatureActivated(uint16_t featureId, int transactionBlock)
 {
-    std::cout << "------------------------------------" << featureId << ' ' << transactionBlock << '\n';
-
     const CConsensusParams& params = ConsensusParams();
     int activationBlock = std::numeric_limits<int>::max();
 
@@ -475,8 +473,6 @@ bool IsFeatureActivated(uint16_t featureId, int transactionBlock)
         default:
             return false;
     }
-
-    std::cout << "----------------------------------" << transactionBlock << ' ' << activationBlock << '\n';
 
     return (transactionBlock >= activationBlock);
 }

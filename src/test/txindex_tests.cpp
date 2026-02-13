@@ -54,7 +54,7 @@ BOOST_FIXTURE_TEST_CASE(txindex_initial_sync, TestChain100Setup)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     // Check that new transactions in new blocks make it into the index.
     for (int i = 0; i < 10; i++) {
         CScript coinbase_script_pub_key = GetScriptForDestination(PKHash(coinbaseKey.GetPubKey()));

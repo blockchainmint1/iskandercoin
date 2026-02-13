@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,7 +43,7 @@
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
@@ -222,7 +222,7 @@ static bool getScriptFromDescriptor(const std::string& descriptor, CScript& scri
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 static RPCHelpMan generatetodescriptor()
 {
     return RPCHelpMan{
@@ -230,7 +230,7 @@ static RPCHelpMan generatetodescriptor()
         "\nMine blocks immediately to a specified descriptor (before the RPC call returns)\n",
         {
             {"num_blocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated immediately."},
-            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated texitcoin to."},
+            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated iskander to."},
             {"maxtries", RPCArg::Type::NUM, /* default */ ToString(DEFAULT_MAX_TRIES), "How many iterations to try."},
         },
         RPCResult{
@@ -277,14 +277,14 @@ static RPCHelpMan generate()
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 static RPCHelpMan generatetoaddress()
 {
     return RPCHelpMan{"generatetoaddress",
                 "\nMine blocks immediately to a specified address (before the RPC call returns)\n",
                 {
                     {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated immediately."},
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated texitcoin to."},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated iskander to."},
                     {"maxtries", RPCArg::Type::NUM, /* default */ ToString(DEFAULT_MAX_TRIES), "How many iterations to try."},
                 },
                 RPCResult{
@@ -295,7 +295,7 @@ static RPCHelpMan generatetoaddress()
                 RPCExamples{
             "\nGenerate 11 blocks to myaddress\n"
             + HelpExampleCli("generatetoaddress", "11 \"myaddress\"")
-            + "If you are using the " PACKAGE_NAME " wallet, you can get a new address to send the newly generated texitcoin to with:\n"
+            + "If you are using the " PACKAGE_NAME " wallet, you can get a new address to send the newly generated iskander to with:\n"
             + HelpExampleCli("getnewaddress", "")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
@@ -323,7 +323,7 @@ static RPCHelpMan generateblock()
     return RPCHelpMan{"generateblock",
         "\nMine a block with a set of ordered transactions immediately to a specified address or descriptor (before the RPC call returns)\n",
         {
-            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated texitcoin to."},
+            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated iskander to."},
             {"transactions", RPCArg::Type::ARR, RPCArg::Optional::NO, "An array of hex strings which are either txids or raw transactions.\n"
                 "Txids must reference transactions currently in the mempool.\n"
                 "All transactions must be valid and in valid order, otherwise the block will be rejected.",
@@ -539,7 +539,7 @@ static std::string gbt_vb_name(const Consensus::DeploymentPos pos) {
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 static RPCHelpMan getblocktemplate()
 {
     return RPCHelpMan{"getblocktemplate",
@@ -1275,11 +1275,11 @@ void AuxMiningCheck(const NodeContext& node)
   if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0
         && !Params().MineBlocksOnDemand())
     throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
-                       "Texitcoin is not connected!");
+                       "Iskander is not connected!");
 
   if (::ChainstateActive().IsInitialBlockDownload() && !Params().MineBlocksOnDemand())
     throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                       "Texitcoin is downloading blocks...");
+                       "Iskander is downloading blocks...");
 
   /* This should never fail, since the chain is already
      past the point of merge-mining start.  Check nevertheless.  */
@@ -1292,7 +1292,7 @@ void AuxMiningCheck(const NodeContext& node)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 static
 UniValue AuxMiningCreateBlock(const util::Ref& context, const CScript& scriptPubKey)
 {
@@ -1377,7 +1377,7 @@ UniValue AuxMiningCreateBlock(const util::Ref& context, const CScript& scriptPub
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 static
 bool AuxMiningSubmitBlock(const util::Ref& context, const std::string& hashHex, const std::string& auxpowHex)
 {
@@ -1474,7 +1474,7 @@ bool AuxMiningSubmitBlock(const util::Ref& context, const std::string& hashHex, 
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 UniValue createauxblock(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
@@ -1539,7 +1539,7 @@ static const CRPCCommand commands[] =
   //  --------------------- ------------------------  -----------------------  ----------
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     { "mining",             "getnetworkhashps",       &getnetworkhashps,       {"nblocks","height"} },
     { "mining",             "getmininginfo",          &getmininginfo,          {} },
 #endif
@@ -1548,7 +1548,7 @@ static const CRPCCommand commands[] =
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  {"txid","dummy","fee_delta"} },
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     { "mining",             "getblocktemplate",       &getblocktemplate,       {"template_request"} },
     { "mining",             "submitblock",            &submitblock,            {"hexdata","dummy"} },
 #endif
@@ -1558,7 +1558,7 @@ static const CRPCCommand commands[] =
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 //    { "mining",             "getauxblock",            &getauxblock,             {"hash", "auxpow"} },
     { "mining",             "createauxblock",         &createauxblock,           {"address"} },
     { "mining",             "submitauxblock",         &submitauxblock,           {"hash", "auxpow"} },

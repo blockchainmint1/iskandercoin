@@ -1,40 +1,40 @@
-TexitCoin Core
+Iskander Core
 =============
 
 Setup
 ---------------------
-TexitCoin Core is the original TexitCoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of TexitCoin transactions, which requires approximately 22 gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+Iskander Core is the original Iskander client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Iskander transactions, which requires approximately 22 gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download TexitCoin Core, visit [texitcoin.org](https://texitcoin.org/).
+To download Iskander Core, visit [iskander.org](https://iskander.org/).
 
 Running
 ---------------------
-The following are some helpful notes on how to run TexitCoin Core on your native platform.
+The following are some helpful notes on how to run Iskander Core on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/texitcoin-qt` (GUI) or
-- `bin/texitcoind` (headless)
+- `bin/iskander-qt` (GUI) or
+- `bin/iskanderd` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run texitcoin-qt.exe.
+Unpack the files into a directory, and then run iskander-qt.exe.
 
 ### macOS
 
-Drag TexitCoin Core to your applications folder, and then run TexitCoin Core.
+Drag Iskander Core to your applications folder, and then run Iskander Core.
 
 ### Need Help?
 
-* See the documentation at the [TexitCoin Wiki](https://texitcoin.info/) for help and more information.
-* Ask for help on [#texitcoin](https://webchat.freenode.net/#texitcoin) on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#texitcoin).
-* Ask for help on the [TexitCoinTalk](https://texitcointalk.io/) forums, in the [Technical Support board](https://texitcointalk.io/c/technical-support).
+* See the documentation at the [Iskander Wiki](https://iskander.info/) for help and more information.
+* Ask for help on [#iskander](https://webchat.freenode.net/#iskander) on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#iskander).
+* Ask for help on the [IskanderTalk](https://iskandertalk.io/) forums, in the [Technical Support board](https://iskandertalk.io/c/technical-support).
 
 Building
 ---------------------
-The following are developer notes on how to build TexitCoin Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Iskander Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [Dependencies](dependencies.md)
 - [macOS Build Notes](build-osx.md)
@@ -47,7 +47,7 @@ The following are developer notes on how to build TexitCoin Core on your native 
 
 Development
 ---------------------
-The TexitCoin repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Iskander repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Productivity Notes](productivity.md)
@@ -64,8 +64,8 @@ The TexitCoin repo's [root README](/README.md) contains relevant information on 
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [TexitCoinTalk](https://texitcointalk.io/) forums.
-* Discuss general TexitCoin development on #texitcoin-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#texitcoin-dev).
+* Discuss on the [IskanderTalk](https://iskandertalk.io/) forums.
+* Discuss general Iskander development on #iskander-dev on Freenode. If you don't have an IRC client, use [webchat here](https://webchat.freenode.net/#iskander-dev).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

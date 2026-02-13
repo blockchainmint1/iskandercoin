@@ -1,4 +1,4 @@
-Name "TexitCoin Core (64-bit)"
+Name "Iskander Core (64-bit)"
 
 RequestExecutionLevel highest
 SetCompressor /SOLID lzma
@@ -11,19 +11,19 @@ SetCompressor /SOLID lzma
 !define URL http://www.omnilayer.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/hermes/Documents/texitcoin/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/hermes/Documents/texitcoin/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/share/pixmaps/bitcoin.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/hermes/Documents/texitcoin/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "TexitCoin Core"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Iskander Core"
 !define MUI_FINISHPAGE_RUN $INSTDIR\omnilite-qt.exe
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/hermes/Documents/texitcoin/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -47,7 +47,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /home/hermes/Documents/texitcoin/omnilite-${VERSION}-win64-setup.exe
+OutFile /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/omnilite-${VERSION}-win64-setup.exe
 InstallDir "$PROGRAMFILES64\OmniLite"
 CRCCheck on
 XPStyle on
@@ -68,13 +68,13 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/hermes/Documents/texitcoin/release/omnilite-qt.exe
-    File /oname=copying.txt /home/hermes/Documents/texitcoin/src/omnicore/COPYING.md
-    File /oname=readme.txt /home/hermes/Documents/texitcoin/src/omnicore/README.md
-    File /oname=release-notes.txt /home/hermes/Documents/texitcoin/src/omnicore/doc/release-notes.md
+    File /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/release/omnilite-qt.exe
+    File /oname=copying.txt /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/src/omnicore/COPYING.md
+    File /oname=readme.txt /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/src/omnicore/README.md
+    File /oname=release-notes.txt /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/src/omnicore/doc/release-notes.md
     SetOutPath $INSTDIR\daemon
-    File /home/hermes/Documents/texitcoin/release/omnilited.exe
-    File /home/hermes/Documents/texitcoin/release/omnilite-cli.exe
+    File /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/release/omnilited.exe
+    File /home/dev/Documents/uploads/project/texitcoin/chain/texitcoin/release/omnilite-cli.exe
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd
@@ -96,10 +96,10 @@ Section -post SEC0001
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-    WriteRegStr HKCR "texitcoin" "URL Protocol" ""
-    WriteRegStr HKCR "texitcoin" "" "URL:Litecoin"
-    WriteRegStr HKCR "texitcoin\DefaultIcon" "" $INSTDIR\omnilite-qt.exe
-    WriteRegStr HKCR "texitcoin\shell\open\command" "" '"$INSTDIR\omnilite-qt.exe" "%1"'
+    WriteRegStr HKCR "iskander" "URL Protocol" ""
+    WriteRegStr HKCR "iskander" "" "URL:Litecoin"
+    WriteRegStr HKCR "iskander\DefaultIcon" "" $INSTDIR\omnilite-qt.exe
+    WriteRegStr HKCR "iskander\shell\open\command" "" '"$INSTDIR\omnilite-qt.exe" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -137,7 +137,7 @@ Section -un.post UNSEC0001
     DeleteRegValue HKCU "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKCU "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKCU "${REGKEY}"
-    DeleteRegKey HKCR "texitcoin"
+    DeleteRegKey HKCR "iskander"
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
     RmDir /REBOOTOK $INSTDIR
     Push $R0

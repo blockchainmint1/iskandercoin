@@ -1,6 +1,6 @@
-TexitCoin Core version 0.21.2 is now available from:
+Iskander Core version 0.21.2 is now available from:
 
- <https://download.texitcoin.org/texitcoin-0.21.2/>.
+ <https://download.iskander.org/iskander-0.21.2/>.
 
 This is the largest update ever, providing full node, wallet, and mining support for MWEB.
 
@@ -10,28 +10,28 @@ Please report bugs using the issue tracker at GitHub:
 
 To receive security and update notifications, please subscribe to:
 
-  <https://groups.google.com/forum/#!forum/texitcoin-dev>
+  <https://groups.google.com/forum/#!forum/iskander-dev>
 
 
 How to upgrade: 
 ==============
 
-Firstly, thank you for running TexitCoin Core and helping secure the network!
+Firstly, thank you for running Iskander Core and helping secure the network!
 
-As you’re running an older version of TexitCoin Core, shut it down. Wait until it’s completely shut down  - which might take a few minutes for older versions - then follow these simple steps:
+As you’re running an older version of Iskander Core, shut it down. Wait until it’s completely shut down  - which might take a few minutes for older versions - then follow these simple steps:
 For Windows: simply run the installer 
-For Mac: copy over to `/Applications/TexitCoin-Qt` 
-For Linux: copy cover `texitcoind`/`texitcoin-qt`.
+For Mac: copy over to `/Applications/Iskander-Qt` 
+For Linux: copy cover `iskanderd`/`iskander-qt`.
 
-NB: upgrading directly from an ‘end of life’ version of TexitCoin Core is possible, but it might take a while if the data directory needs to be migrated. Old wallet versions of TexitCoin Core are generally supported.
+NB: upgrading directly from an ‘end of life’ version of Iskander Core is possible, but it might take a while if the data directory needs to be migrated. Old wallet versions of Iskander Core are generally supported.
  
 
 Compatibility:
 ==============
 
-TexitCoin Core is supported and extensively tested on operating systems using the Linux kernel, macOS 10.10+,  Windows 7 and newer. It’s not recommended to use TexitCoin Core on unsupported systems.
+Iskander Core is supported and extensively tested on operating systems using the Linux kernel, macOS 10.10+,  Windows 7 and newer. It’s not recommended to use Iskander Core on unsupported systems.
 
-TexitCoin Core should also work on most other Unix-like systems, but is not as frequently tested on them.
+Iskander Core should also work on most other Unix-like systems, but is not as frequently tested on them.
 
 MWEB fields added to BlockIndex, and block serialization format has changed. Downgrading to older versions is unsafe.
 
@@ -44,9 +44,9 @@ Consensus changes
 -----------------
 
 - This release implements the proposed MWEB consensus rules
-  ([LIP002](https://github.com/texitcoin-project/lips/blob/master/lip-0002.mediawiki),
-  [LIP003](https://github.com/texitcoin-project/lips/blob/master/lip-0003.mediawiki), and
-  [LIP004](https://github.com/texitcoin-project/lips/blob/master/lip-0004.mediawiki))
+  ([LIP002](https://github.com/iskander-project/lips/blob/master/lip-0002.mediawiki),
+  [LIP003](https://github.com/iskander-project/lips/blob/master/lip-0003.mediawiki), and
+  [LIP004](https://github.com/iskander-project/lips/blob/master/lip-0004.mediawiki))
 
 P2P and network changes
 -----------------------

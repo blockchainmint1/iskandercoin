@@ -1,6 +1,6 @@
-TexitCoin Core version 0.21.2.2 is now available from:
+Iskander Core version 0.21.2.2 is now available from:
 
- <https://download.texitcoin.org/texitcoin-0.21.2.2/>.
+ <https://download.iskander.org/iskander-0.21.2.2/>.
 
 This is a new patch version release that includes important security updates.
 

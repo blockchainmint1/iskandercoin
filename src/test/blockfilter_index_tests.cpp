@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_SUITE(blockfilter_index_tests)
 struct BuildChainTestingSetup : public TestChain100Setup {
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     CBlock CreateBlock(const CBlockIndex* prev, const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey);
 #endif
 #endif
@@ -65,7 +65,7 @@ static bool CheckFilterLookups(BlockFilterIndex& filter_index, const CBlockIndex
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 CBlock BuildChainTestingSetup::CreateBlock(const CBlockIndex* prev,
     const std::vector<CMutableTransaction>& txns,
     const CScript& scriptPubKey)
@@ -103,7 +103,7 @@ bool BuildChainTestingSetup::BuildChain(const CBlockIndex* pindex,
     chain.resize(length);
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     for (auto& block : chain) {
         block = std::make_shared<CBlock>(CreateBlock(pindex, no_txns, coinbase_script_pub_key));
         CBlockHeader header = block->GetBlockHeader();

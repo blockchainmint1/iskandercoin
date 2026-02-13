@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -32,7 +32,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "utxoupdatepsbt", 1, "descriptors" },
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     { "generatetoaddress", 0, "nblocks" },
     { "generatetoaddress", 2, "maxtries" },
     { "generatetodescriptor", 0, "num_blocks" },
@@ -74,7 +74,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "walletpassphrase", 1, "timeout" },
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     { "getblocktemplate", 0, "template_request" },
 #endif
 #endif

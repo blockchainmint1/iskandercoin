@@ -42,10 +42,10 @@ QString BitcoinUnits::longName(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("TXC");
-    case mBTC: return QString("mTXC");
-    case uBTC: return QString("µTXC");
-    case SAT: return QString("crocket");
+    case BTC: return QString("ISK");
+    case mBTC: return QString("mISK");
+    case uBTC: return QString("µISK");
+    case SAT: return QString("Nomo");
     default: return QString("???");
     }
 }
@@ -55,7 +55,7 @@ QString BitcoinUnits::shortName(int unit)
     switch(unit)
     {
     case uBTC: return QString::fromUtf8("bits");
-    case SAT: return QString("sat");
+    case SAT: return QString("NOM");
     default: return longName(unit);
     }
 }
@@ -64,10 +64,10 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("TexitCoins");
-    case mBTC: return QString("Milli-TexitCoins (1 / 1" THIN_SP_UTF8 "000)");
-    case uBTC: return QString("Micro-TexitCoins (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case SAT: return QString("crocket (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case BTC: return QString("Iskanders");
+    case mBTC: return QString("Milli-Iskanders (1 / 1" THIN_SP_UTF8 "000)");
+    case uBTC: return QString("Micro-Iskanders (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case SAT: return QString("Nomo (NOM) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }

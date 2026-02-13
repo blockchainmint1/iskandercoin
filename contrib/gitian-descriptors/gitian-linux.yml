@@ -1,5 +1,5 @@
 ---
-name: "texitcoin-core-linux-0.21"
+name: "iskander-core-linux-0.21"
 enable_cache: true
 distro: "ubuntu"
 suites:
@@ -33,7 +33,7 @@ packages:
 - "g++-8-riscv64-linux-gnu"
 remotes:
 - "url": ".git"
-  "dir": "texitcoin"
+  "dir": "iskander"
 files: []
 script: |
   set -e -o pipefail
@@ -92,7 +92,7 @@ script: |
   create_per-host_faketime_wrappers "2000-01-01 12:00:00"
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd texitcoin
+  cd iskander
   BASEPREFIX="${PWD}/depends"
   # Build dependencies for each host
   for i in $HOSTS; do
@@ -142,12 +142,12 @@ script: |
     find . -name "lib*.la" -delete
     find . -name "lib*.a" -delete
     rm -rf ${DISTNAME}/lib/pkgconfig
-    # TexitCoin: Delete libbitcoin from binary distribution for now, see #192
+    # Iskander: Delete libbitcoin from binary distribution for now, see #192
     rm -rf ${DISTNAME:?}/lib/
     rm -rf ${DISTNAME}/include/
-    # TexitCoin: ends
+    # Iskander: ends
     find ${DISTNAME}/bin -type f -executable -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg
-    # find ${DISTNAME}/lib -type f -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg # TexitCoin: see issue 192
+    # find ${DISTNAME}/lib -type f -print0 | xargs -0 -n1 -I{} ../contrib/devtools/split-debug.sh {} {} {}.dbg # Iskander: see issue 192
     cp ../README.md ${DISTNAME}/
     find ${DISTNAME} -not -name "*.dbg" | sort | tar --mtime="$REFERENCE_DATETIME" --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}.tar.gz
     find ${DISTNAME} -name "*.dbg" | sort | tar --mtime="$REFERENCE_DATETIME" --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${OUTDIR}/${DISTNAME}-${i}-debug.tar.gz

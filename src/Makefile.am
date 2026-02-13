@@ -88,22 +88,22 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += texitcoind
+  bin_PROGRAMS += iskanderd
 endif
 
 if BUILD_BITCOIN_NODE
-  bin_PROGRAMS += texitcoin-node
+  bin_PROGRAMS += iskander-node
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += texitcoin-cli
+  bin_PROGRAMS += iskander-cli
 endif
 if BUILD_BITCOIN_TX
-  bin_PROGRAMS += texitcoin-tx
+  bin_PROGRAMS += iskander-tx
 endif
 if ENABLE_WALLET
 if BUILD_BITCOIN_WALLET
-  bin_PROGRAMS += texitcoin-wallet
+  bin_PROGRAMS += iskander-wallet
 endif
 endif
 
@@ -649,16 +649,16 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind & bitcoin-node binaries #
-texitcoin_daemon_sources = bitcoind.cpp
-texitcoin_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-texitcoin_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
-texitcoin_bin_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+iskander_daemon_sources = bitcoind.cpp
+iskander_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+iskander_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
+iskander_bin_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-texitcoin_daemon_sources += bitcoind-res.rc
+iskander_daemon_sources += bitcoind-res.rc
 endif
 
-texitcoin_bin_ldadd = \
+iskander_bin_ldadd = \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -672,50 +672,50 @@ texitcoin_bin_ldadd = \
   $(LIBSECP256K1) \
   $(LIBMW)
 
-texitcoin_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS) $(MWEB_LIBS)
+iskander_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS) $(MWEB_LIBS)
 
-texitcoind_SOURCES = $(texitcoin_daemon_sources)
-texitcoind_CPPFLAGS = $(texitcoin_bin_cppflags)
-texitcoind_CXXFLAGS = $(texitcoin_bin_cxxflags)
-texitcoind_LDFLAGS = $(texitcoin_bin_ldflags)
-texitcoind_LDADD = $(LIBBITCOIN_SERVER) $(texitcoin_bin_ldadd)
+iskanderd_SOURCES = $(iskander_daemon_sources)
+iskanderd_CPPFLAGS = $(iskander_bin_cppflags)
+iskanderd_CXXFLAGS = $(iskander_bin_cxxflags)
+iskanderd_LDFLAGS = $(iskander_bin_ldflags)
+iskanderd_LDADD = $(LIBBITCOIN_SERVER) $(iskander_bin_ldadd)
 
-texitcoin_node_SOURCES = $(texitcoin_daemon_sources)
-texitcoin_node_CPPFLAGS = $(texitcoin_bin_cppflags)
-texitcoin_node_CXXFLAGS = $(texitcoin_bin_cxxflags)
-texitcoin_node_LDFLAGS = $(texitcoin_bin_ldflags)
-texitcoin_node_LDADD = $(LIBBITCOIN_SERVER) $(texitcoin_bin_ldadd)
+iskander_node_SOURCES = $(iskander_daemon_sources)
+iskander_node_CPPFLAGS = $(iskander_bin_cppflags)
+iskander_node_CXXFLAGS = $(iskander_bin_cxxflags)
+iskander_node_LDFLAGS = $(iskander_bin_ldflags)
+iskander_node_LDADD = $(LIBBITCOIN_SERVER) $(iskander_bin_ldadd)
 
 # bitcoin-cli binary #
-texitcoin_cli_SOURCES = bitcoin-cli.cpp
-texitcoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-texitcoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-texitcoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+iskander_cli_SOURCES = bitcoin-cli.cpp
+iskander_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+iskander_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+iskander_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-texitcoin_cli_SOURCES += bitcoin-cli-res.rc
+iskander_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-texitcoin_cli_LDADD = \
+iskander_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-texitcoin_cli_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS) $(MWEB_LIBS)
+iskander_cli_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS) $(MWEB_LIBS)
 #
 
 # bitcoin-tx binary #
-texitcoin_tx_SOURCES = bitcoin-tx.cpp
-texitcoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-texitcoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-texitcoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+iskander_tx_SOURCES = bitcoin-tx.cpp
+iskander_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+iskander_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+iskander_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-texitcoin_tx_SOURCES += bitcoin-tx-res.rc
+iskander_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-texitcoin_tx_LDADD = \
+iskander_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -724,17 +724,17 @@ texitcoin_tx_LDADD = \
   $(LIBSECP256K1) \
   $(LIBMW)
 
-texitcoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(MWEB_LIBS)
+iskander_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(MWEB_LIBS)
 
 # bitcoin-wallet binary #
-texitcoin_wallet_SOURCES = bitcoin-wallet.cpp
-texitcoin_wallet_CPPFLAGS = $(texitcoin_bin_cppflags)
-texitcoin_wallet_CXXFLAGS = $(texitcoin_bin_cxxflags)
-texitcoin_wallet_LDFLAGS = $(texitcoin_bin_ldflags)
-texitcoin_wallet_LDADD = $(LIBBITCOIN_WALLET_TOOL) $(texitcoin_bin_ldadd)
+iskander_wallet_SOURCES = bitcoin-wallet.cpp
+iskander_wallet_CPPFLAGS = $(iskander_bin_cppflags)
+iskander_wallet_CXXFLAGS = $(iskander_bin_cxxflags)
+iskander_wallet_LDFLAGS = $(iskander_bin_ldflags)
+iskander_wallet_LDADD = $(LIBBITCOIN_WALLET_TOOL) $(iskander_bin_ldadd)
 
 if TARGET_WINDOWS
-texitcoin_wallet_SOURCES += bitcoin-wallet-res.rc
+iskander_wallet_SOURCES += bitcoin-wallet-res.rc
 endif
 #
 

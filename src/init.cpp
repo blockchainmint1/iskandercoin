@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -445,7 +445,7 @@ void SetupServerArgs(NodeContext& node)
     argsman.AddArg("-reindex-chainstate", "Rebuild chain state from the currently indexed blocks. When in pruning mode or if blocks on disk might be corrupted, use full -reindex instead.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-settings=<file>", strprintf("Specify path to dynamic settings data file. Can be disabled with -nosettings. File is written at runtime and not meant to be edited by users (use %s instead for custom settings). Relative paths will be prefixed by datadir location. (default: %s)", BITCOIN_CONF_FILENAME, BITCOIN_SETTINGS_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #ifndef ENABLE_WINDOW_WALLET
-    argsman.AddArg("-texitkey=<file>", "Path to the root public key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-iskanderkey=<file>", "Path to the root public key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-authkey=<file>", "Path to the self node key file", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #endif
 #if HAVE_SYSTEM
@@ -1260,10 +1260,10 @@ bool AppInitParameterInteraction(const ArgsManager& args)
     }
 
     #ifndef ENABLE_WINDOW_WALLET
-    if (args.IsArgSet("-texitkey")) {
-        std::string texitKey = args.GetArg("-texitkey", "defaultvalue");
-        // Handle Texit Key Option
-        LogPrintf("Custom option value: %s\n", texitKey);
+    if (args.IsArgSet("-iskanderkey")) {
+        std::string iskanderKey = args.GetArg("-iskanderkey", "defaultvalue");
+        // Handle Iskander Key Option
+        LogPrintf("Custom option value: %s\n", iskanderKey);
     }
 
     if (args.IsArgSet("-authkey")) {
@@ -1379,17 +1379,17 @@ bool AppInitMain(const util::Ref& context, NodeContext& node, interfaces::BlockA
     // Warn about relative -datadir path.
     if (args.IsArgSet("-datadir") && !fs::path(args.GetArg("-datadir", "")).is_absolute()) {
         LogPrintf("Warning: relative datadir option '%s' specified, which will be interpreted relative to the " /* Continued */
-                  "current working directory '%s'. This is fragile, because if texitcoin is started in the future "
+                  "current working directory '%s'. This is fragile, because if iskander is started in the future "
                   "from a different location, it will be unable to locate the current data files. There could "
-                  "also be data loss if texitcoin is started while in a temporary directory.\n",
+                  "also be data loss if iskander is started while in a temporary directory.\n",
                   args.GetArg("-datadir", ""), fs::current_path().string());
     }
 
     #ifndef ENABLE_WINDOW_WALLET
-    if (args.IsArgSet("-texitkey")) {
-        std::string texitKey = args.GetArg("-texitkey", "defaultvalue");
-        // Handle Texit Key Option
-        LogPrintf("Custom option value: %s\n", texitKey);
+    if (args.IsArgSet("-iskanderkey")) {
+        std::string iskanderKey = args.GetArg("-iskanderkey", "defaultvalue");
+        // Handle Iskander Key Option
+        LogPrintf("Custom option value: %s\n", iskanderKey);
     }
 
     if (args.IsArgSet("-authkey")) {

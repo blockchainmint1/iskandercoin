@@ -2,17 +2,17 @@
 
 *.exe
 *.pdb
-src/texitcoin
-src/texitcoind
-src/texitcoin-cli
-src/texitcoin-gui
-src/texitcoin-node
-src/texitcoin-tx
-src/texitcoin-wallet
+src/iskander
+src/iskanderd
+src/iskander-cli
+src/iskander-gui
+src/iskander-node
+src/iskander-tx
+src/iskander-wallet
 src/test/fuzz/*
 !src/test/fuzz/*.*
-src/test/test_texitcoin
-src/qt/test/test_texitcoin-qt
+src/test/test_iskander
+src/qt/test/test_iskander-qt
 
 # autoreconf
 Makefile.in
@@ -94,8 +94,8 @@ src/qt/bitcoin-qt.includes
 *.qm
 Makefile
 !depends/Makefile
-src/qt/texitcoin-qt
-TexitCoin-Qt.app
+src/qt/iskander-qt
+Iskander-Qt.app
 background.tiff*
 
 # Qt Creator
@@ -103,7 +103,7 @@ Makefile.am.user
 
 # Unit-tests
 Makefile.test
-texitcoin-qt_test
+iskander-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -118,7 +118,7 @@ releases
 *.gcno
 *.gcda
 /*.info
-test_texitcoin.coverage/
+test_iskander.coverage/
 total.coverage/
 fuzz.coverage/
 coverage_percent.txt

@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -458,11 +458,11 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->hogex_hash     = diskindex.hogex_hash;
                 pindexNew->mweb_amount    = diskindex.mweb_amount;
 
-                // TexitCoin: Disable PoW Sanity check while loading block index from disk.
+                // Iskander: Disable PoW Sanity check while loading block index from disk.
                 // We use the sha256 hash for the block index for performance reasons, which is recorded for later use.
                 // CheckProofOfWork() uses the scrypt hash which is discarded after a block is accepted.
                 // While it is technically feasible to verify the PoW, doing so takes several minutes as it
-                // requires recomputing every PoW hash during every TexitCoin startup.
+                // requires recomputing every PoW hash during every Iskander startup.
                 // We opt instead to simply trust the data that is on your local disk.
                 //if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams))
                 //    return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());

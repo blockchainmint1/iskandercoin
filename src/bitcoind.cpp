@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -63,7 +63,7 @@ static bool AppInit(int argc, char* argv[])
         if (args.IsArgSet("-version")) {
             strUsage += FormatParagraph(LicenseInfo()) + "\n";
         } else {
-            strUsage += "\nUsage:  texitcoind [options]                     Start " PACKAGE_NAME "\n";
+            strUsage += "\nUsage:  iskanderd [options]                     Start " PACKAGE_NAME "\n";
             strUsage += "\n" + args.GetHelpMessage();
         }
 
@@ -90,7 +90,7 @@ static bool AppInit(int argc, char* argv[])
         // Error out when loose non-argument tokens are encountered on command line
         for (int i = 1; i < argc; i++) {
             if (!IsSwitchChar(argv[i][0])) {
-                return InitError(Untranslated(strprintf("Command line contains unexpected token '%s', see texitcoind -h for a list of options.\n", argv[i])));
+                return InitError(Untranslated(strprintf("Command line contains unexpected token '%s', see iskanderd -h for a list of options.\n", argv[i])));
             }
         }
 

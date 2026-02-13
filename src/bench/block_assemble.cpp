@@ -39,7 +39,7 @@ static void AssembleBlock(benchmark::Bench& bench)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 
     for (size_t b{0}; b < NUM_BLOCKS; ++b) {
         CMutableTransaction tx;
@@ -65,7 +65,7 @@ static void AssembleBlock(benchmark::Bench& bench)
     
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
     bench.run([&] {
         PrepareBlock(test_setup.m_node, SCRIPT_PUB);
     });

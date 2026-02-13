@@ -42,12 +42,12 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "TexitCoin"
-#define QAPP_ORG_DOMAIN "texitcoin.org"
-#define QAPP_APP_NAME_DEFAULT "TexitCoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Liteocin-Qt-testnet"
-#define QAPP_APP_NAME_SIGNET "TexitCoin-Qt-signet"
-#define QAPP_APP_NAME_REGTEST "TexitCoin-Qt-regtest"
+#define QAPP_ORG_NAME "Iskander"
+#define QAPP_ORG_DOMAIN "iskander.org"
+#define QAPP_APP_NAME_DEFAULT "Iskander-Qt"
+#define QAPP_APP_NAME_TESTNET "Iskander-Qt-testnet"
+#define QAPP_APP_NAME_SIGNET "Iskander-Qt-signet"
+#define QAPP_APP_NAME_REGTEST "Iskander-Qt-regtest"
 
 /* One gigabyte (GB) in bytes */
 static constexpr uint64_t GB_BYTES{1000000000};

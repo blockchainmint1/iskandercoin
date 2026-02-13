@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>TexitCoin-Qt</string>
+  <string>Iskander-Qt</string>
 
   <key>CFBundleName</key>
-  <string>TexitCoin-Qt</string>
+  <string>Iskander-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.texitcoin.TexitCoin-Qt</string>
+  <string>org.iskander.Iskander-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -46,10 +46,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.texitcoin.TexitCoinPayment</string>
+      <string>org.iskander.IskanderPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>texitcoin</string>
+        <string>iskander</string>
       </array>
     </dict>
   </array>

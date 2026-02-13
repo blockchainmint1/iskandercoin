@@ -76,42 +76,42 @@ templates = [
 # templates for valid bech32 sequences
 bech32_templates = [
   # hrp, version, witprog_size, metadata, encoding, output_prefix
-  ('txc',    0, 20, (False, 'main',    None, True), Encoding.BECH32,  p2wpkh_prefix),
-  ('txc',    0, 32, (False, 'main',    None, True), Encoding.BECH32,  p2wsh_prefix),
-  ('txc',    1, 32, (False, 'main',    None, True), Encoding.BECH32M, p2tr_prefix),
-  ('txc',    2,  2, (False, 'main',    None, True), Encoding.BECH32M, (OP_2, 2)),
-  ('ttxc',    0, 20, (False, 'test',    None, True), Encoding.BECH32,  p2wpkh_prefix),
-  ('ttxc',    0, 32, (False, 'test',    None, True), Encoding.BECH32,  p2wsh_prefix),
-  ('ttxc',    1, 32, (False, 'test',    None, True), Encoding.BECH32M, p2tr_prefix),
-  ('ttxc',    3, 16, (False, 'test',    None, True), Encoding.BECH32M, (OP_3, 16)),
-  ('ttxc',    0, 20, (False, 'signet',  None, True), Encoding.BECH32,  p2wpkh_prefix),
-  ('ttxc',    0, 32, (False, 'signet',  None, True), Encoding.BECH32,  p2wsh_prefix),
-  ('ttxc',    1, 32, (False, 'signet',  None, True), Encoding.BECH32M, p2tr_prefix),
-  ('ttxc',    3, 32, (False, 'signet',  None, True), Encoding.BECH32M, (OP_3, 32)),
-  ('rtxc',  0, 20, (False, 'regtest', None, True), Encoding.BECH32,  p2wpkh_prefix),
-  ('rtxc',  0, 32, (False, 'regtest', None, True), Encoding.BECH32,  p2wsh_prefix),
-  ('rtxc',  1, 32, (False, 'regtest', None, True), Encoding.BECH32M, p2tr_prefix),
-  ('rtxc', 16, 40, (False, 'regtest', None, True), Encoding.BECH32M, (OP_16, 40))
+  ('isk',    0, 20, (False, 'main',    None, True), Encoding.BECH32,  p2wpkh_prefix),
+  ('isk',    0, 32, (False, 'main',    None, True), Encoding.BECH32,  p2wsh_prefix),
+  ('isk',    1, 32, (False, 'main',    None, True), Encoding.BECH32M, p2tr_prefix),
+  ('isk',    2,  2, (False, 'main',    None, True), Encoding.BECH32M, (OP_2, 2)),
+  ('tisk',    0, 20, (False, 'test',    None, True), Encoding.BECH32,  p2wpkh_prefix),
+  ('tisk',    0, 32, (False, 'test',    None, True), Encoding.BECH32,  p2wsh_prefix),
+  ('tisk',    1, 32, (False, 'test',    None, True), Encoding.BECH32M, p2tr_prefix),
+  ('tisk',    3, 16, (False, 'test',    None, True), Encoding.BECH32M, (OP_3, 16)),
+  ('tisk',    0, 20, (False, 'signet',  None, True), Encoding.BECH32,  p2wpkh_prefix),
+  ('tisk',    0, 32, (False, 'signet',  None, True), Encoding.BECH32,  p2wsh_prefix),
+  ('tisk',    1, 32, (False, 'signet',  None, True), Encoding.BECH32M, p2tr_prefix),
+  ('tisk',    3, 32, (False, 'signet',  None, True), Encoding.BECH32M, (OP_3, 32)),
+  ('risk',  0, 20, (False, 'regtest', None, True), Encoding.BECH32,  p2wpkh_prefix),
+  ('risk',  0, 32, (False, 'regtest', None, True), Encoding.BECH32,  p2wsh_prefix),
+  ('risk',  1, 32, (False, 'regtest', None, True), Encoding.BECH32M, p2tr_prefix),
+  ('risk', 16, 40, (False, 'regtest', None, True), Encoding.BECH32M, (OP_16, 40))
 ]
 # templates for invalid bech32 sequences
 bech32_ng_templates = [
   # hrp, version, witprog_size, encoding, invalid_bech32, invalid_checksum, invalid_char
   ('tc',    0, 20, Encoding.BECH32,  False, False, False),
   ('bt',    1, 32, Encoding.BECH32M, False, False, False),
-  ('ttxc',   17, 32, Encoding.BECH32M, False, False, False),
-  ('rtxc',  3,  1, Encoding.BECH32M, False, False, False),
-  ('txc',   15, 41, Encoding.BECH32M, False, False, False),
-  ('ttxc',    0, 16, Encoding.BECH32,  False, False, False),
-  ('rtxc',  0, 32, Encoding.BECH32,  True,  False, False),
-  ('txc',    0, 16, Encoding.BECH32,  True,  False, False),
-  ('ttxc',    0, 32, Encoding.BECH32,  False, True,  False),
-  ('rtxc',  0, 20, Encoding.BECH32,  False, False, True),
-  ('txc',    0, 20, Encoding.BECH32M, False, False, False),
-  ('ttxc',    0, 32, Encoding.BECH32M, False, False, False),
-  ('rtxc',  0, 20, Encoding.BECH32M, False, False, False),
-  ('txc',    1, 32, Encoding.BECH32,  False, False, False),
-  ('ttxc',    2, 16, Encoding.BECH32,  False, False, False),
-  ('rtxc', 16, 20, Encoding.BECH32,  False, False, False),
+  ('tisk',   17, 32, Encoding.BECH32M, False, False, False),
+  ('risk',  3,  1, Encoding.BECH32M, False, False, False),
+  ('isk',   15, 41, Encoding.BECH32M, False, False, False),
+  ('tisk',    0, 16, Encoding.BECH32,  False, False, False),
+  ('risk',  0, 32, Encoding.BECH32,  True,  False, False),
+  ('isk',    0, 16, Encoding.BECH32,  True,  False, False),
+  ('tisk',    0, 32, Encoding.BECH32,  False, True,  False),
+  ('risk',  0, 20, Encoding.BECH32,  False, False, True),
+  ('isk',    0, 20, Encoding.BECH32M, False, False, False),
+  ('tisk',    0, 32, Encoding.BECH32M, False, False, False),
+  ('risk',  0, 20, Encoding.BECH32M, False, False, False),
+  ('isk',    1, 32, Encoding.BECH32,  False, False, False),
+  ('tisk',    2, 16, Encoding.BECH32,  False, False, False),
+  ('risk', 16, 20, Encoding.BECH32,  False, False, False),
 ]
 
 def is_valid(v):
@@ -131,7 +131,7 @@ def is_valid(v):
 
 def is_valid_bech32(v):
     '''Check vector v for bech32 validity'''
-    for hrp in ['txc', 'ttxc', 'rtxc']:
+    for hrp in ['isk', 'tisk', 'risk']:
         if decode_segwit_address(hrp, v) != (None, None):
             return True
     return False

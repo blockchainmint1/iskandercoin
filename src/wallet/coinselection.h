@@ -105,12 +105,12 @@ struct CoinEligibilityFilter
 };
 
 enum class InputPreference {
-    // Use TXC and MWEB inputs (MIXED)
+    // Use ISK and MWEB inputs (MIXED)
     ANY,
     // Only use MWEB inputs (used when explicitly pegging-out)
     MWEB_ONLY,
     // Only use canonical inputs (used when explicitly pegging-in)
-    TXC_ONLY
+    ISK_ONLY
 };
 
 struct OutputGroup

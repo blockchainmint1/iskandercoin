@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -89,7 +89,7 @@ static const std::array<uint8_t, 6> TORV2_IN_IPV6_PREFIX{
 /// Such dummy IPv6 addresses are guaranteed to not be publicly routable as they
 /// fall under RFC4193's fc00::/7 subnet allocated to unique-local addresses.
 static const std::array<uint8_t, 6> INTERNAL_IN_IPV6_PREFIX{
-    0xFD, 0x6C, 0xE9, 0xFE, 0x45, 0x49 // 0xFD + sha256("texitcoin")[0:5].
+    0xFD, 0xA0, 0x34, 0x94, 0xFD, 0xEE // 0xFD + sha256("iskander")[0:5].
 };
 
 /// Size of IPv4 address (in bytes).

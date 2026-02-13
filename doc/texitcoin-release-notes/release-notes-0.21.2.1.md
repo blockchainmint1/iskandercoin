@@ -1,6 +1,6 @@
-TexitCoin Core version 0.21.2.1 is now available from:
+Iskander Core version 0.21.2.1 is now available from:
 
- <https://download.texitcoin.org/texitcoin-0.21.2.1/>.
+ <https://download.iskander.org/iskander-0.21.2.1/>.
 
 This includes a critical bug fix for upgraded wallets to receive via MWEB.
 
@@ -10,7 +10,7 @@ Please report bugs using the issue tracker at GitHub:
 
 To receive security and update notifications, please subscribe to:
 
-  <https://groups.google.com/forum/#!forum/texitcoin-dev>
+  <https://groups.google.com/forum/#!forum/iskander-dev>
 
 Notable changes
 ===============

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Open texitcoin URI</string>
+   <string>Open iskander URI</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -26,7 +26,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="uriEdit">
        <property name="placeholderText">
-        <string notr="true">texitcoin:</string>
+        <string notr="true">iskander:</string>
        </property>
       </widget>
      </item>

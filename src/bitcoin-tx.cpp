@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2020 The Bitcoin Core developers
-// Copyright (c) 2024 The TexitCoin Core developers
+// Copyright (c) 2024 The Iskander Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -98,9 +98,9 @@ static int AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 || HelpRequested(gArgs)) {
         // First part of help message is specific to this utility
-        std::string strUsage = PACKAGE_NAME " texitcoin-tx utility version " + FormatFullVersion() + "\n\n" +
-            "Usage:  texitcoin-tx [options] <hex-tx> [commands]  Update hex-encoded texitcoin transaction\n" +
-            "or:     texitcoin-tx [options] -create [commands]   Create hex-encoded texitcoin transaction\n" +
+        std::string strUsage = PACKAGE_NAME " iskander-tx utility version " + FormatFullVersion() + "\n\n" +
+            "Usage:  iskander-tx [options] <hex-tx> [commands]  Update hex-encoded iskander transaction\n" +
+            "or:     iskander-tx [options] -create [commands]   Create hex-encoded iskander transaction\n" +
             "\n";
         strUsage += gArgs.GetHelpMessage();
 

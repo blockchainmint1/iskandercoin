@@ -14,7 +14,7 @@ struct InProcessTx;
 namespace MWEB {
 
 enum class TxType {
-    TXC_TO_TXC,
+    ISK_TO_ISK,
     MWEB_TO_MWEB,
     PEGIN,
     PEGOUT // NOTE: It's possible pegout transactions will also have pegins, but they will still be classified as PEGOUT
@@ -40,7 +40,7 @@ private:
     mw::Recipient BuildChangeRecipient(
         const InProcessTx& new_tx,
         const boost::optional<CAmount>& pegin_amount,
-        const CAmount& txc_change
+        const CAmount& isk_change
     );
 };
 

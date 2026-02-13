@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.texitcoin.TexitCoin-Qt";
+        return @"org.iskander.Iskander-Qt";
     } else {
         return [self __bundleIdentifier];
     }

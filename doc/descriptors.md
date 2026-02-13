@@ -1,6 +1,6 @@
-# Support for Output Descriptors in TexitCoin Core
+# Support for Output Descriptors in Iskander Core
 
-Since TexitCoin Core v0.17, there is support for Output Descriptors. This is a
+Since Iskander Core v0.17, there is support for Output Descriptors. This is a
 simple language which can be used to describe collections of output scripts.
 Supporting RPCs are:
 - `scantxoutset` takes as input descriptors to scan for, and also reports
@@ -189,7 +189,7 @@ steps, or for dumping wallet descriptors including private key material.
 ### Compatibility with old wallets
 
 In order to easily represent the sets of scripts currently supported by
-existing TexitCoin Core wallets, a convenience function `combo` is
+existing Iskander Core wallets, a convenience function `combo` is
 provided, which takes as input a public key, and describes a set of P2PK,
 P2PKH, P2WPKH, and P2SH-P2WPH scripts for that key. In case the key is
 uncompressed, the set only includes P2PK and P2PKH scripts.

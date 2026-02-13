@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(findAncestorByHash)
 
 #ifndef ENABLE_BLOCK_ALL_MINING
 #ifndef ENABLE_WINDOW_WALLET
-#ifndef ENABLE_TEXIT_NODE_LOGGING
+#ifndef ENABLE_ISKANDER_NODE_LOGGING
 BOOST_AUTO_TEST_CASE(findCommonAncestor)
 {
     auto chain = interfaces::MakeChain(m_node);

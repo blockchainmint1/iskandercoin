@@ -32,7 +32,7 @@ struct InProcessTx {
 
     // MWEB
     uint64_t mweb_weight{0};
-    MWEB::TxType mweb_type{MWEB::TxType::TXC_TO_TXC};
+    MWEB::TxType mweb_type{MWEB::TxType::ISK_TO_ISK};
     bool change_on_mweb{false};
     CAmount mweb_fee{0}; // Portion of the fee that will be paid by an MWEB kernel
 };

@@ -8,7 +8,7 @@ import shutil
 import time
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.txc_util import setup_mweb_chain
+from test_framework.isk_util import setup_mweb_chain
 
 from test_framework.util import (
     assert_equal,

@@ -94,12 +94,12 @@ over the network (`CBlock`, `CTransaction`, etc, along with the network-level
 wrappers for them, `msg_block`, `msg_tx`, etc).
 
 - P2P tests have two threads. One thread handles all network communication
-with the texitcoind(s) being tested in a callback-based event loop; the other
+with the iskanderd(s) being tested in a callback-based event loop; the other
 implements the test logic.
 
-- `P2PConnection` is the class used to connect to a texitcoind.  `P2PInterface`
+- `P2PConnection` is the class used to connect to a iskanderd.  `P2PInterface`
 contains the higher level logic for processing P2P payloads and connecting to
-the TexitCoin Core node application logic. For custom behaviour, subclass the
+the Iskander Core node application logic. For custom behaviour, subclass the
 P2PInterface object and override the callback methods.
 
 `P2PConnection`s can be used as such:
@@ -144,7 +144,7 @@ Base class for functional tests.
 Generally useful functions.
 
 #### [p2p.py](test_framework/p2p.py)
-Test objects for interacting with a texitcoind node over the p2p interface.
+Test objects for interacting with a iskanderd node over the p2p interface.
 
 #### [script.py](test_framework/script.py)
 Utilities for manipulating transaction scripts (originally from python-bitcoinlib)

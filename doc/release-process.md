@@ -61,12 +61,12 @@ If you're using the automated script (found in [contrib/gitian-build.py](/contri
 Check out the source code in the following directory hierarchy.
 
     cd /path/to/your/toplevel/build
-    git clone https://github.com/texitcoin-project/gitian.sigs.txc.git
+    git clone https://github.com/iskander-project/gitian.sigs.isk.git
     git clone -detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
     git clone .git
 
-### TexitCoin maintainers/release engineers, suggestion for writing release notes
+### Iskander maintainers/release engineers, suggestion for writing release notes
 
 Write the release notes. `git shortlog` helps a lot, for example:
 
@@ -89,16 +89,16 @@ If you're using the automated script (found in [contrib/gitian-build.py](/contri
 
 Setup Gitian descriptors:
 
-    pushd ./texitcoin
+    pushd ./iskander
     export SIGNER="(your Gitian key, ie bluematt, sipa, etc)"
     export VERSION=(new version, e.g. 0.20.0)
     git fetch
     git checkout v${VERSION}
     popd
 
-Ensure your gitian.sigs.txc are up-to-date if you wish to gverify your builds against other Gitian signatures.
+Ensure your gitian.sigs.isk are up-to-date if you wish to gverify your builds against other Gitian signatures.
 
-    pushd ./gitian.sigs.txc
+    pushd ./gitian.sigs.isk
     git pull
     popd
 
@@ -122,10 +122,10 @@ Create the macOS SDK tarball, see the [macdeploy instructions](/contrib/macdeplo
 
 NOTE: Gitian is sometimes unable to download files. If you have errors, try the step below.
 
-By default, Gitian will fetch source files as needed. To cache them ahead of time, make sure you have checked out the tag you want to build in texitcoin, then:
+By default, Gitian will fetch source files as needed. To cache them ahead of time, make sure you have checked out the tag you want to build in iskander, then:
 
     pushd ./gitian-builder
-    make -C ../texitcoin/depends download SOURCES_PATH=`pwd`/cache/common
+    make -C ../iskander/depends download SOURCES_PATH=`pwd`/cache/common
     popd
 
 Only missing files will be fetched, so this is safe to re-run for each build.
@@ -133,57 +133,57 @@ Only missing files will be fetched, so this is safe to re-run for each build.
 NOTE: Offline builds must use the --url flag to ensure Gitian fetches only from local URLs. For example:
 
     pushd ./gitian-builder
-    ./bin/gbuild --url texitcoin=/path/to/texitcoin,signature=/path/to/sigs {rest of arguments}
+    ./bin/gbuild --url iskander=/path/to/iskander,signature=/path/to/sigs {rest of arguments}
     popd
 
 The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
-### Build and sign TexitCoin Core for Linux, Windows, and macOS:
+### Build and sign Iskander Core for Linux, Windows, and macOS:
 
     export GITIAN_THREADS=2
     export GITIAN_MEMORY=3000
     
     pushd ./gitian-builder
-    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit texitcoin=v${VERSION} ../texitcoin/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-linux --destination ../gitian.sigs.txc/ ../texitcoin/contrib/gitian-descriptors/gitian-linux.yml
-    mv build/out/texitcoin-*.tar.gz build/out/src/texitcoin-*.tar.gz ../
+    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit iskander=v${VERSION} ../iskander/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-linux --destination ../gitian.sigs.isk/ ../iskander/contrib/gitian-descriptors/gitian-linux.yml
+    mv build/out/iskander-*.tar.gz build/out/src/iskander-*.tar.gz ../
 
-    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit texitcoin=v${VERSION} ../texitcoin/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-unsigned --destination ../gitian.sigs.txc/ ../texitcoin/contrib/gitian-descriptors/gitian-win.yml
-    mv build/out/texitcoin-*-win-unsigned.tar.gz inputs/texitcoin-win-unsigned.tar.gz
-    mv build/out/texitcoin-*.zip build/out/texitcoin-*.exe ../
+    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit iskander=v${VERSION} ../iskander/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-unsigned --destination ../gitian.sigs.isk/ ../iskander/contrib/gitian-descriptors/gitian-win.yml
+    mv build/out/iskander-*-win-unsigned.tar.gz inputs/iskander-win-unsigned.tar.gz
+    mv build/out/iskander-*.zip build/out/iskander-*.exe ../
 
-    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit texitcoin=v${VERSION} ../texitcoin/contrib/gitian-descriptors/gitian-osx.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.txc/ ../texitcoin/contrib/gitian-descriptors/gitian-osx.yml
-    mv build/out/texitcoin-*-osx-unsigned.tar.gz inputs/texitcoin-osx-unsigned.tar.gz
-    mv build/out/texitcoin-*.tar.gz build/out/texitcoin-*.dmg ../
+    ./bin/gbuild --num-make $GITIAN_THREADS --memory $GITIAN_MEMORY --commit iskander=v${VERSION} ../iskander/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.isk/ ../iskander/contrib/gitian-descriptors/gitian-osx.yml
+    mv build/out/iskander-*-osx-unsigned.tar.gz inputs/iskander-osx-unsigned.tar.gz
+    mv build/out/iskander-*.tar.gz build/out/iskander-*.dmg ../
     popd
 
 Build output expected:
 
-  1. source tarball (`texitcoin-${VERSION}.tar.gz`)
-  2. linux 32-bit and 64-bit dist tarballs (`texitcoin-${VERSION}-linux[32|64].tar.gz`)
-  3. windows 32-bit and 64-bit unsigned installers and dist zips (`texitcoin-${VERSION}-win[32|64]-setup-unsigned.exe`, `texitcoin-${VERSION}-win[32|64].zip`)
-  4. macOS unsigned installer and dist tarball (`texitcoin-${VERSION}-osx-unsigned.dmg`, `texitcoin-${VERSION}-osx64.tar.gz`)
-  5. Gitian signatures (in `gitian.sigs.txc/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
+  1. source tarball (`iskander-${VERSION}.tar.gz`)
+  2. linux 32-bit and 64-bit dist tarballs (`iskander-${VERSION}-linux[32|64].tar.gz`)
+  3. windows 32-bit and 64-bit unsigned installers and dist zips (`iskander-${VERSION}-win[32|64]-setup-unsigned.exe`, `iskander-${VERSION}-win[32|64].zip`)
+  4. macOS unsigned installer and dist tarball (`iskander-${VERSION}-osx-unsigned.dmg`, `iskander-${VERSION}-osx64.tar.gz`)
+  5. Gitian signatures (in `gitian.sigs.isk/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
 
 ### Verify other gitian builders signatures to your own. (Optional)
 
-Add other gitian builders keys to your gpg keyring, and/or refresh keys: See `../texitcoin/contrib/gitian-keys/README.md`.
+Add other gitian builders keys to your gpg keyring, and/or refresh keys: See `../iskander/contrib/gitian-keys/README.md`.
 
 Verify the signatures
 
     pushd ./gitian-builder
-    ./bin/gverify -v -d ../gitian.sigs.txc/ -r ${VERSION}-linux ../texitcoin/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gverify -v -d ../gitian.sigs.txc/ -r ${VERSION}-win-unsigned ../texitcoin/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gverify -v -d ../gitian.sigs.txc/ -r ${VERSION}-osx-unsigned ../texitcoin/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gverify -v -d ../gitian.sigs.isk/ -r ${VERSION}-linux ../iskander/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gverify -v -d ../gitian.sigs.isk/ -r ${VERSION}-win-unsigned ../iskander/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gverify -v -d ../gitian.sigs.isk/ -r ${VERSION}-osx-unsigned ../iskander/contrib/gitian-descriptors/gitian-osx.yml
     popd
 
 ### Next steps:
 
-Commit your signature to gitian.sigs.txc:
+Commit your signature to gitian.sigs.isk:
 
-    pushd gitian.sigs.txc
+    pushd gitian.sigs.isk
     git add ${VERSION}-linux/"${SIGNER}"
     git add ${VERSION}-win-unsigned/"${SIGNER}"
     git add ${VERSION}-osx-unsigned/"${SIGNER}"
@@ -197,8 +197,8 @@ Codesigner only: Create Windows/macOS detached signatures:
 
 Codesigner only: Sign the macOS binary:
 
-    transfer texitcoin-osx-unsigned.tar.gz to macOS for signing
-    tar xf texitcoin-osx-unsigned.tar.gz
+    transfer iskander-osx-unsigned.tar.gz to macOS for signing
+    tar xf iskander-osx-unsigned.tar.gz
     ./detached-sig-create.sh -s "Key ID"
     Enter the keychain password and authorize the signature
     
@@ -215,7 +215,7 @@ Codesigner only: Sign the macOS binary:
 
     Notarize the disk image:
 
-    $   xcrun altool --notarize-app --primary-bundle-id "org.texitcoin.TexitCoin-Qt" -u "<apple-id-email>" -p "@keychain:<apple-id-notarisation-app-specific-password>" --asc-provider <team-id-shortcode> -t osx -f texitcoin-${VERSION}-osx.dmg
+    $   xcrun altool --notarize-app --primary-bundle-id "org.iskander.Iskander-Qt" -u "<apple-id-email>" -p "@keychain:<apple-id-notarisation-app-specific-password>" --asc-provider <team-id-shortcode> -t osx -f iskander-${VERSION}-osx.dmg
 
     The notarization takes a few minutes. Check the status:
 
@@ -227,24 +227,24 @@ Codesigner only: Sign the macOS binary:
 
     Staple the notarization ticket onto the application
 
-    $   xcrun stapler staple dist/TexitCoin-Qt.app
+    $   xcrun stapler staple dist/Iskander-Qt.app
 
 Codesigner only: Sign the windows binaries:
 
-    tar xf texitcoin-win-unsigned.tar.gz
+    tar xf iskander-win-unsigned.tar.gz
     ./detached-sig-create.sh -key /path/to/codesign.key
     Enter the passphrase for the key when prompted
     signature-win.tar.gz will be created
 
 Codesigner only: Commit the detached codesign payloads:
 
-    cd ~/texitcoin-detached-sigs
+    cd ~/iskander-detached-sigs
     #checkout the appropriate branch for this release series
     rm -rf *
     tar xf signature-osx.tar.gz
     tar xf signature-win.tar.gz
     #copy the notarization ticket to detached-sigs repo
-    cp dist/TexitCoin-Qt.app/Contents/CodeResources osx/dist/TexitCoin-Qt.app/Contents/
+    cp dist/Iskander-Qt.app/Contents/CodeResources osx/dist/Iskander-Qt.app/Contents/
     git add -A
     git commit -m "point to ${VERSION}"
     git tag -s v${VERSION} HEAD
@@ -253,33 +253,33 @@ Codesigner only: Commit the detached codesign payloads:
 Non-codesigners: wait for Windows/macOS detached signatures:
 
 - Once the Windows/macOS builds each have 3 matching signatures, they will be signed with their respective release keys.
-- Detached signatures will then be committed to the [texitcoin-detached-sigs](-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
+- Detached signatures will then be committed to the [iskander-detached-sigs](-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
 Create (and optionally verify) the signed macOS binary:
 
     pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../texitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-signed --destination ../gitian.sigs.txc/ ../texitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs.txc/ -r ${VERSION}-osx-signed ../texitcoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    mv build/out/texitcoin-osx-signed.dmg ../texitcoin-${VERSION}-osx.dmg
+    ./bin/gbuild -i --commit signature=v${VERSION} ../iskander/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-osx-signed --destination ../gitian.sigs.isk/ ../iskander/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs.isk/ -r ${VERSION}-osx-signed ../iskander/contrib/gitian-descriptors/gitian-osx-signer.yml
+    mv build/out/iskander-osx-signed.dmg ../iskander-${VERSION}-osx.dmg
     popd
 
 Create (and optionally verify) the signed Windows binaries:
 
     pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../texitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../texitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../texitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    mv build/out/texitcoin-*win64-setup.exe ../texitcoin-${VERSION}-win64-setup.exe
+    ./bin/gbuild -i --commit signature=v${VERSION} ../iskander/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gsign --signer "$SIGNER" --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../iskander/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../iskander/contrib/gitian-descriptors/gitian-win-signer.yml
+    mv build/out/iskander-*win64-setup.exe ../iskander-${VERSION}-win64-setup.exe
     popd
 
 Commit your signature for the signed macOS/Windows binaries:
 
-    pushd gitian.sigs.txc
+    pushd gitian.sigs.isk
     git add ${VERSION}-osx-signed/"${SIGNER}"
     git add ${VERSION}-win-signed/"${SIGNER}"
     git commit -m "Add ${SIGNER} ${VERSION} signed binaries signatures"
-    git push  # Assuming you can push to the gitian.sigs.txc tree
+    git push  # Assuming you can push to the gitian.sigs.isk tree
     popd
 
 ### After 3 or more people have gitian-built and their results match:
@@ -292,21 +292,21 @@ sha256sum * > SHA256SUMS
 
 The list of files should be:
 ```
-texitcoin-${VERSION}-aarch64-linux-gnu.tar.gz
-texitcoin-${VERSION}-arm-linux-gnueabihf.tar.gz
-texitcoin-${VERSION}-riscv64-linux-gnu.tar.gz
-texitcoin-${VERSION}-x86_64-linux-gnu.tar.gz
-texitcoin-${VERSION}-osx64.tar.gz
-texitcoin-${VERSION}-osx.dmg
-texitcoin-${VERSION}.tar.gz
-texitcoin-${VERSION}-win64-setup.exe
-texitcoin-${VERSION}-win64.zip
+iskander-${VERSION}-aarch64-linux-gnu.tar.gz
+iskander-${VERSION}-arm-linux-gnueabihf.tar.gz
+iskander-${VERSION}-riscv64-linux-gnu.tar.gz
+iskander-${VERSION}-x86_64-linux-gnu.tar.gz
+iskander-${VERSION}-osx64.tar.gz
+iskander-${VERSION}-osx.dmg
+iskander-${VERSION}.tar.gz
+iskander-${VERSION}-win64-setup.exe
+iskander-${VERSION}-win64.zip
 ```
 The `*-debug*` files generated by the gitian build contain debug symbols
 for troubleshooting by developers. It is assumed that anyone that is interested
 in debugging can run gitian to generate the files for themselves. To avoid
 end-user confusion about which file to pick, as well as save storage
-space *do not upload these to the texitcoin.org server, nor put them in the torrent*.
+space *do not upload these to the iskander.org server, nor put them in the torrent*.
 
 - GPG-sign it, delete the unsigned file:
 ```
@@ -316,9 +316,9 @@ rm SHA256SUMS
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the texitcoin.org server.
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the iskander.org server.
 
-- Update texitcoin.org version
+- Update iskander.org version
 
 - Update other repositories and websites for new version
 
@@ -356,13 +356,13 @@ Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spur
 
 - Announce the release:
 
-  - texitcoin-dev mailing list
+  - iskander-dev mailing list
 
-  - blog.texitcoin.org blog post
+  - blog.iskander.org blog post
 
-  - Update title of #texitcoin and #texitcoin-dev on Freenode IRC
+  - Update title of #iskander and #iskander-dev on Freenode IRC
 
-  - Optionally twitter, reddit /r/TexitCoin, ... but this will usually sort out itself
+  - Optionally twitter, reddit /r/Iskander, ... but this will usually sort out itself
 
   - Archive release notes for the new version to `doc/release-notes/` (branch `master` and branch of the release)
 

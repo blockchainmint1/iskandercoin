@@ -1,7 +1,7 @@
 Description
 ------------
 
-This directory contains data-driven tests for various aspects of TexitCoin.
+This directory contains data-driven tests for various aspects of Iskander.
 
 License
 --------

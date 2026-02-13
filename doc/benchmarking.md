@@ -1,21 +1,21 @@
 Benchmarking
 ============
 
-TexitCoin Core has an internal benchmarking framework, with benchmarks
+Iskander Core has an internal benchmarking framework, with benchmarks
 for cryptographic algorithms (e.g. SHA1, SHA256, SHA512, RIPEMD160, Poly1305, ChaCha20), rolling bloom filter, coins selection,
 thread queue, wallet balance.
 
 Running
 ---------------------
 
-For benchmarks purposes you only need to compile `texitcoin_bench`. Beware of configuring without `--enable-debug` as this would impact
+For benchmarks purposes you only need to compile `iskander_bench`. Beware of configuring without `--enable-debug` as this would impact
 benchmarking by unlatching log printers and lock analysis.
 
-    make -C src texitcoin_bench
+    make -C src iskander_bench
 
-After compiling texitcoin-core, the benchmarks can be run with:
+After compiling iskander-core, the benchmarks can be run with:
 
-    src/bench/bench_texitcoin
+    src/bench/bench_iskander
 
 The output will look similar to:
 ```
@@ -45,6 +45,6 @@ More benchmarks are needed for, in no particular order:
 Going Further
 --------------------
 
-To monitor TexitCoin Core performance more in depth (like reindex or IBD): https://github.com/chaincodelabs/bitcoinperf
+To monitor Iskander Core performance more in depth (like reindex or IBD): https://github.com/chaincodelabs/bitcoinperf
 
-To generate Flame Graphs for TexitCoin Core: https://github.com/eklitzke/bitcoin/blob/flamegraphs/doc/flamegraphs.md
+To generate Flame Graphs for Iskander Core: https://github.com/eklitzke/bitcoin/blob/flamegraphs/doc/flamegraphs.md

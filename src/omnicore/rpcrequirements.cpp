@@ -20,7 +20,6 @@
 void RequireBalance(const std::string& address, uint32_t propertyId, int64_t amount)
 {
     int64_t balance = GetTokenBalance(address, propertyId, BALANCE);
-    std::cout << "------------------------" << balance << '\n';
     if (balance < amount) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Sender has insufficient balance");
     }

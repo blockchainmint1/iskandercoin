@@ -143,17 +143,18 @@ bool CheckActivationAuthorization(const std::string& sender)
 
     // Mainnet - 2 out of 3 signatures required from developers
     // New features on the OmniLayer are activated by hardcoded members though a multsig tx.
+    // TODO: Generate proper multisig address for Iskander network
     /*
-    "address": "MJDAXHQMxdRfKS2b3hECsSCf4iyx1G8CCT",
-    "scriptPubKey": "a9147118fcdaa0df6e5d81d00124a58c67b04729a9a387",
+    "address": "KActivationIskanderMultisig111111",
+    "scriptPubKey": "TODO: Generate proper scriptPubKey",
     "sigsrequired": 2,
     "addresses": [
-      "MMum4mWQQ1bRuvTGYqbpRJJMWp37GSpg9z", // losh11 - loshan1212@gmail.com - Project maintainer, developer
-      "Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2", // coblee (Charlie Lee) - coblee@litecoin.org - Project maintainer, developer
-      "MHM7cuj4kLJHtvJbiKHBFPjq6gzxMjNLBH", // Craig Sellars - craig@omni.foundation - Technologist and Omni board member
+      "K...", // Developer 1
+      "K...", // Developer 2
+      "K...", // Developer 3
     ],
     */
-    whitelisted.insert("MJDAXHQMxdRfKS2b3hECsSCf4iyx1G8CCT");
+    whitelisted.insert("KActivationIskanderMultisig111111");
 
     // Testnet / Regtest
     // use -omniactivationallowsender for testing
@@ -193,17 +194,18 @@ bool CheckDeactivationAuthorization(const std::string& sender)
 
     // Mainnet - 2 out of 3 signatures required from developers
     // Deactivations on the OmniLayer are done by hardcoded members though a multsig tx.
+    // TODO: Generate proper multisig address for Iskander network
     /*
-    "address": "MJDAXHQMxdRfKS2b3hECsSCf4iyx1G8CCT",
-    "scriptPubKey": "a9147118fcdaa0df6e5d81d00124a58c67b04729a9a387",
+    "address": "KActivationIskanderMultisig111111",
+    "scriptPubKey": "TODO: Generate proper scriptPubKey",
     "sigsrequired": 2,
     "addresses": [
-      "MMum4mWQQ1bRuvTGYqbpRJJMWp37GSpg9z", // losh11 - loshan1212@gmail.com - Project maintainer, developer
-      "Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2", // coblee (Charlie Lee) - coblee@litecoin.org - Project maintainer, developer
-      "MHM7cuj4kLJHtvJbiKHBFPjq6gzxMjNLBH", // Craig Sellars - craig@omni.foundation - Technologist and Omni board member
+      "K...", // Developer 1
+      "K...", // Developer 2
+      "K...", // Developer 3
     ],
     */
-    whitelisted.insert("MJDAXHQMxdRfKS2b3hECsSCf4iyx1G8CCT");
+    whitelisted.insert("KActivationIskanderMultisig111111");
 
     // Testnet / Regtest
     // use -omniactivationallowsender for testing

@@ -107,7 +107,7 @@ def create_non_hd_wallet(chain, options):
     data_dir = get_datadir_path(options.tmpdir, 10)
 
     # adjust conf for pre 17
-    conf_file = os.path.join(data_dir, 'texitcoin.conf')
+    conf_file = os.path.join(data_dir, 'iskander.conf')
     with open(conf_file, 'r', encoding='utf8') as conf:
         conf_data = conf.read()
     with open(conf_file, 'w', encoding='utf8') as conf:
@@ -120,8 +120,8 @@ def create_non_hd_wallet(chain, options):
         rpchost=None,
         timewait=60,
         timeout_factor=1.0,
-        bitcoind=os.path.join(bin_dir, 'texitcoind'),
-        bitcoin_cli=os.path.join(bin_dir, 'texitcoin-cli'),
+        bitcoind=os.path.join(bin_dir, 'iskanderd'),
+        bitcoin_cli=os.path.join(bin_dir, 'iskander-cli'),
         version=version,
         coverage_dir=None,
         cwd=options.tmpdir,

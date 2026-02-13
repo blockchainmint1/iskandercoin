@@ -2,10 +2,10 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += qt/texitcoin-qt
+bin_PROGRAMS += qt/iskander-qt
 
 if BUILD_BITCOIN_GUI
-  bin_PROGRAMS += texitcoin-gui
+  bin_PROGRAMS += iskander-gui
 endif
 
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
@@ -215,7 +215,7 @@ RES_ICONS = \
   qt/res/icons/hd_disabled.png \
   qt/res/icons/hd_enabled.png \
   qt/res/icons/history.png \
-  qt/res/icons/texitcoin_splash.png \
+  qt/res/icons/iskander_splash.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
   qt/res/icons/meta_cancelled.png \
@@ -348,40 +348,40 @@ $(QT_MOC): $(QT_FORMS_H)
 $(qt_libbitcoinqt_a_OBJECTS) $(qt_bitcoin_qt_OBJECTS) $(bitcoin_gui_OBJECTS) : | $(QT_MOC)
 
 # bitcoin-qt and bitcoin-gui binaries #
-texitcoin_qt_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+iskander_qt_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QR_CFLAGS)
-texitcoin_qt_cxxflags = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+iskander_qt_cxxflags = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-texitcoin_qt_sources = qt/main.cpp
+iskander_qt_sources = qt/main.cpp
 if TARGET_WINDOWS
-  texitcoin_qt_sources += $(BITCOIN_RC)
+  iskander_qt_sources += $(BITCOIN_RC)
 endif
-texitcoin_qt_ldadd = qt/libbitcoinqt.a $(LIBBITCOIN_SERVER)
+iskander_qt_ldadd = qt/libbitcoinqt.a $(LIBBITCOIN_SERVER)
 if ENABLE_WALLET
-texitcoin_qt_ldadd += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
+iskander_qt_ldadd += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
 endif
 if ENABLE_ZMQ
-texitcoin_qt_ldadd += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+iskander_qt_ldadd += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
-texitcoin_qt_ldadd += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+iskander_qt_ldadd += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
   $(LIBMW) $(MWEB_LIBS) $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) $(CRYPTO_LIBS) \
   $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(SQLITE_LIBS)
-texitcoin_qt_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
-texitcoin_qt_libtoolflags = $(AM_LIBTOOLFLAGS) --tag CXX
+iskander_qt_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+iskander_qt_libtoolflags = $(AM_LIBTOOLFLAGS) --tag CXX
 
-qt_texitcoin_qt_CPPFLAGS = $(texitcoin_qt_cppflags)
-qt_texitcoin_qt_CXXFLAGS = $(texitcoin_qt_cxxflags)
-qt_texitcoin_qt_SOURCES = $(texitcoin_qt_sources)
-qt_texitcoin_qt_LDADD = $(texitcoin_qt_ldadd)
-qt_texitcoin_qt_LDFLAGS = $(texitcoin_qt_ldflags)
-qt_texitcoin_qt_LIBTOOLFLAGS = $(texitcoin_qt_libtoolflags)
+qt_iskander_qt_CPPFLAGS = $(iskander_qt_cppflags)
+qt_iskander_qt_CXXFLAGS = $(iskander_qt_cxxflags)
+qt_iskander_qt_SOURCES = $(iskander_qt_sources)
+qt_iskander_qt_LDADD = $(iskander_qt_ldadd)
+qt_iskander_qt_LDFLAGS = $(iskander_qt_ldflags)
+qt_iskander_qt_LIBTOOLFLAGS = $(iskander_qt_libtoolflags)
 
-texitcoin_gui_CPPFLAGS = $(texitcoin_qt_cppflags)
-texitcoin_gui_CXXFLAGS = $(texitcoin_qt_cxxflags)
-texitcoin_gui_SOURCES = $(texitcoin_qt_sources)
-texitcoin_gui_LDADD = $(texitcoin_qt_ldadd)
-texitcoin_gui_LDFLAGS = $(texitcoin_qt_ldflags)
-texitcoin_gui_LIBTOOLFLAGS = $(texitcoin_qt_libtoolflags)
+iskander_gui_CPPFLAGS = $(iskander_qt_cppflags)
+iskander_gui_CXXFLAGS = $(iskander_qt_cxxflags)
+iskander_gui_SOURCES = $(iskander_qt_sources)
+iskander_gui_LDADD = $(iskander_qt_ldadd)
+iskander_gui_LDFLAGS = $(iskander_qt_ldflags)
+iskander_gui_LIBTOOLFLAGS = $(iskander_qt_libtoolflags)
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
@@ -413,9 +413,9 @@ CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda 
 CLEANFILES += $(CLEAN_QT)
 
 bitcoin_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_texitcoin_qt_OBJECTS) qt/texitcoin-qt$(EXEEXT) $(LIBBITCOINQT)
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_iskander_qt_OBJECTS) qt/iskander-qt$(EXEEXT) $(LIBBITCOINQT)
 
-bitcoin_qt : qt/texitcoin-qt$(EXEEXT)
+bitcoin_qt : qt/iskander-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)

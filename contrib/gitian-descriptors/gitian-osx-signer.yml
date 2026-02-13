@@ -1,5 +1,5 @@
 ---
-name: "texitcoin-dmg-signer"
+name: "iskander-dmg-signer"
 distro: "ubuntu"
 suites:
 - "bionic"
@@ -16,7 +16,7 @@ remotes:
   "dir": "signapple"
   "commit": "0777ce58e61b0e6be753a5f524149d6d47905186"
 files:
-- "texitcoin-osx-unsigned.tar.gz"
+- "iskander-osx-unsigned.tar.gz"
 script: |
   set -e -o pipefail
 
@@ -42,9 +42,9 @@ script: |
   export PATH="$HOME/.local/bin":$PATH
   cd ..
 
-  UNSIGNED_TARBALL=texitcoin-osx-unsigned.tar.gz
-  UNSIGNED_APP=dist/TexitCoin-Qt.app
-  SIGNED=texitcoin-osx-signed.dmg
+  UNSIGNED_TARBALL=iskander-osx-unsigned.tar.gz
+  UNSIGNED_APP=dist/Iskander-Qt.app
+  SIGNED=iskander-osx-signed.dmg
 
   tar -xf ${UNSIGNED_TARBALL}
   OSX_VOLNAME="$(cat osx_volname)"
