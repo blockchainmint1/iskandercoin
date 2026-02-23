@@ -107,6 +107,10 @@ public:
 
         consensus.nAuxpowChainId = 0x4953; // ISK in hex (18771)
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
+        
+        consensus.nCoinbaseAddressEnforcementHeight = 10300;
+        consensus.nProtocolUpgradeHeight = 10300;
+
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = 0; // No legacy blocks
         /**
@@ -150,6 +154,7 @@ public:
         bech32_hrp = "isk";
         mweb_hrp = "iskmweb";
 
+        strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -216,6 +221,10 @@ public:
 
         consensus.nAuxpowChainId = 0x4953; // ISK in hex
         consensus.nAuxpowStartHeight = 1;
+        
+        consensus.nCoinbaseAddressEnforcementHeight = 10;
+        consensus.nProtocolUpgradeHeight = 10;
+
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = 0;
 
@@ -265,6 +274,7 @@ public:
         bech32_hrp = "tisk";
         mweb_hrp = "tiskmweb";
 
+        strRequiredCoinbaseAddress = "";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
@@ -331,6 +341,10 @@ public:
 
         consensus.nAuxpowChainId = 0x4953; // ISK in hex
         consensus.nAuxpowStartHeight = 1;
+
+        consensus.nCoinbaseAddressEnforcementHeight = 8;
+        consensus.nProtocolUpgradeHeight = 8;
+
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = 0;
         
@@ -399,6 +413,8 @@ public:
 
         bech32_hrp = "risk";
         mweb_hrp = "riskmweb";
+
+        strRequiredCoinbaseAddress = "risk1qftjla43ayn8v9ms78uk3n60gjr3pdpznh6fz9u";
     }
 
     /**
