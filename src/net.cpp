@@ -1810,13 +1810,23 @@ void CConnman::ThreadDNSAddressSeed()
             std::vector<CNetAddr> vIPs;
             std::vector<CAddress> vAdd;
             ServiceFlags requiredServiceBits = GetDesirableServiceFlags(NODE_NONE);
-            std::string host = strprintf("x%x.%s", requiredServiceBits, seed);
             CNetAddr resolveSource;
-            if (!resolveSource.SetInternal(host)) {
+            if (!resolveSource.SetInternal(seed)) {
                 continue;
             }
             unsigned int nMaxIPs = 256; // Limits number of IPs learned from a DNS seed
-            if (LookupHost(host, vIPs, nMaxIPs, true)) {
+
+            // First try the service-bit-prefixed hostname (for proper DNS seeders)
+            std::string host = strprintf("x%x.%s", requiredServiceBits, seed);
+            bool resolved = LookupHost(host, vIPs, nMaxIPs, true);
+
+            // If that fails, try the bare hostname (for regular seed nodes)
+            if (!resolved || vIPs.empty()) {
+                vIPs.clear();
+                resolved = LookupHost(seed, vIPs, nMaxIPs, true);
+            }
+
+            if (resolved && !vIPs.empty()) {
                 for (const CNetAddr& ip : vIPs) {
                     int nOneDay = 24*3600;
                     CAddress addr = CAddress(CService(ip, Params().GetDefaultPort()), requiredServiceBits);
@@ -1826,8 +1836,8 @@ void CConnman::ThreadDNSAddressSeed()
                 }
                 addrman.Add(vAdd, resolveSource);
             } else {
-                // We now avoid directly using results from DNS Seeds which do not support service bit filtering,
-                // instead using them as a addrfetch to get nodes with our desired service bits.
+                // DNS resolution failed entirely, use as an addrfetch to get
+                // nodes with our desired service bits.
                 AddAddrFetch(seed);
             }
         }
