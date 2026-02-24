@@ -8,6 +8,7 @@
 #include <attributes.h>
 
 #include <algorithm>
+#include <cstdint>
 #include <array>
 #include <cstring>
 #include <locale>

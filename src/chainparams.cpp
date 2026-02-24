@@ -108,8 +108,8 @@ public:
         consensus.nAuxpowChainId = 0x4953; // ISK in hex (18771)
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
-        consensus.nCoinbaseAddressEnforcementHeight = 10300;
-        consensus.nProtocolUpgradeHeight = 10300;
+        consensus.nCoinbaseAddressEnforcementHeight = 9500;
+        consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = 0; // No legacy blocks
