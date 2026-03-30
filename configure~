@@ -35817,6 +35817,7 @@ printf "%s\n" "#define CLIENT_VERSION_IS_RELEASE true" >>confdefs.h
 
 
 printf "%s\n" "#define COPYRIGHT_YEAR 2026" >>confdefs.h
+printf "%s\n" "#define COPYRIGHT_YEAR 2026" >>confdefs.h
 
 
 printf "%s\n" "#define COPYRIGHT_HOLDERS \"The %s developers\"" >>confdefs.h
@@ -35838,6 +35839,7 @@ CLIENT_VERSION_BUILD=0
 
 CLIENT_VERSION_IS_RELEASE=true
 
+COPYRIGHT_YEAR=2026
 COPYRIGHT_YEAR=2026
 
 COPYRIGHT_HOLDERS="The %s developers"
