@@ -108,7 +108,7 @@ public:
         consensus.nAuxpowChainId = 0x4953; // ISK in hex (18771)
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
-        consensus.nCoinbaseAddressEnforcementHeight = 9500;
+        consensus.nCoinbaseAddressEnforcementHeight = 25095;
         consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
@@ -165,6 +165,8 @@ public:
             {
                 // Genesis checkpoint (placeholder until genesis is mined)
                 {0, consensus.hashGenesisBlock},
+                // Last protocol update
+                { 9500, uint256S("4e26b214bcb06a2fc2fd4b028fc9cefd86d63f7c6388c622b085c156a702a2ca")}
             }
         };
 
