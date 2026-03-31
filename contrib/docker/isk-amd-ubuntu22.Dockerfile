@@ -60,5 +60,5 @@ EXPOSE 15739 15740 28337
 # USER texitcoin
 
 # Explicitly specify config file path
-ENTRYPOINT ["/usr/local/bin/texitcoind"]
+ENTRYPOINT ["/usr/local/bin/iskanderd"]
 CMD ["-datadir=/texitcoin-data", "-conf=/texitcoin-config/texitcoin.conf"]
