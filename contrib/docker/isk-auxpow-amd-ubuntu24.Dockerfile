@@ -1,5 +1,5 @@
 # ---------- Stage 1: Build ----------
-FROM --platform=linux/amd64 dev-containers:txc-deps-amd-ubuntu24 AS builder
+FROM --platform=linux/amd64 dev-containers:isk-deps-amd-ubuntu24 AS builder
 
 WORKDIR /src
 
@@ -54,7 +54,9 @@ RUN mkdir -p /texitcoin-data /texitcoin-config
 
 VOLUME ["/texitcoin-data", "/texitcoin-config"]
 
-EXPOSE 15739 15740 28337
+# RPC Port: 25365
+# P2P Port: 25366
+EXPOSE 25365 25366
 
 # USER texitcoin
 
