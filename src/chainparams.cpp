@@ -110,6 +110,7 @@ public:
         
         consensus.nCoinbaseAddressEnforcementHeight = 9500;
         consensus.nNewCoinbaseAddressEnforcementHeight = 58016;
+        consensus.nNodeAuthOptionalHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
@@ -226,6 +227,7 @@ public:
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
         consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
         consensus.fStrictChainId = false;
@@ -348,6 +350,7 @@ public:
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
         consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
         consensus.fStrictChainId = true;
