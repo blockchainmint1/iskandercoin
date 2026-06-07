@@ -109,6 +109,7 @@ public:
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
         consensus.nCoinbaseAddressEnforcementHeight = 9500;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
@@ -155,6 +156,7 @@ public:
         mweb_hrp = "iskmweb";
 
         strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
+        strNewRequiredCoinbaseAddress = "KLkngxf93xCb89k963NrwwRMDuvxvxCP1D";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -223,6 +225,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
         consensus.fStrictChainId = false;
@@ -275,6 +278,7 @@ public:
         mweb_hrp = "tiskmweb";
 
         strRequiredCoinbaseAddress = "";
+        strNewRequiredCoinbaseAddress = "";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
@@ -343,6 +347,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
         consensus.fStrictChainId = true;
@@ -415,6 +420,7 @@ public:
         mweb_hrp = "riskmweb";
 
         strRequiredCoinbaseAddress = "risk1qftjla43ayn8v9ms78uk3n60gjr3pdpznh6fz9u";
+        strNewRequiredCoinbaseAddress = "";
     }
 
     /**
