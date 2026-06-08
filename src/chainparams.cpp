@@ -157,7 +157,7 @@ public:
         mweb_hrp = "iskmweb";
 
         strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
-        strNewRequiredCoinbaseAddress = "KLngxf93xCb89k963NrwwRMDuvxxvCP1D";
+        strNewRequiredCoinbaseAddress = "KLkngxf93xCb89k963NrwwRMDuvxvxCP1D";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
