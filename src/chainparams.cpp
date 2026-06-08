@@ -109,6 +109,7 @@ public:
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
         consensus.nCoinbaseAddressEnforcementHeight = 25095;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 58016;
         consensus.nNodeAuthOptionalHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
@@ -156,6 +157,7 @@ public:
         mweb_hrp = "iskmweb";
 
         strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
+        strNewRequiredCoinbaseAddress = "KLngxf93xCb89k963NrwwRMDuvxxvCP1D";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -226,6 +228,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
         consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
@@ -347,6 +350,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
         consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
