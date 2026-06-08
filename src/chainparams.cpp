@@ -109,6 +109,7 @@ public:
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
         consensus.nCoinbaseAddressEnforcementHeight = 25095;
+        consensus.nNodeAuthOptionalHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
@@ -225,6 +226,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
         consensus.fStrictChainId = false;
@@ -345,6 +347,7 @@ public:
         consensus.nAuxpowStartHeight = 1;
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
         consensus.fStrictChainId = true;
