@@ -108,7 +108,9 @@ public:
         consensus.nAuxpowChainId = 0x4953; // ISK in hex (18771)
         consensus.nAuxpowStartHeight = 1; // Enable auxpow from block 1
         
-        consensus.nCoinbaseAddressEnforcementHeight = 9500;
+        consensus.nCoinbaseAddressEnforcementHeight = 25095;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 58016;
+        consensus.nNodeAuthOptionalHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
         consensus.fStrictChainId = true;
@@ -155,6 +157,7 @@ public:
         mweb_hrp = "iskmweb";
 
         strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
+        strNewRequiredCoinbaseAddress = "KLkngxf93xCb89k963NrwwRMDuvxvxCP1D";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -165,6 +168,8 @@ public:
             {
                 // Genesis checkpoint (placeholder until genesis is mined)
                 {0, consensus.hashGenesisBlock},
+                // Last protocol update
+                { 9500, uint256S("4e26b214bcb06a2fc2fd4b028fc9cefd86d63f7c6388c622b085c156a702a2ca")}
             }
         };
 
@@ -223,6 +228,8 @@ public:
         consensus.nAuxpowStartHeight = 1;
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
         consensus.fStrictChainId = false;
@@ -343,6 +350,8 @@ public:
         consensus.nAuxpowStartHeight = 1;
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
+        consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
         consensus.fStrictChainId = true;

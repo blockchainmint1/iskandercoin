@@ -9,6 +9,7 @@
 #include <amount.h>
 #include <chain.h>
 #include <chainparams.h>
+#include <key_io.h>
 #include <coins.h>
 #include <consensus/consensus.h>
 #include <consensus/merkle.h>
@@ -183,7 +184,17 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
     coinbaseTx.vout.resize(1);
-    coinbaseTx.vout[0].scriptPubKey = scriptPubKeyIn;
+    CScript coinbaseScript = scriptPubKeyIn;
+    if (nHeight >= chainparams.GetConsensus().nCoinbaseAddressEnforcementHeight) {
+        const std::string& strRequiredAddr = chainparams.GetRequiredCoinbaseAddress(nHeight);
+        if (!strRequiredAddr.empty()) {
+            CTxDestination requiredDest = DecodeDestination(strRequiredAddr);
+            if (IsValidDestination(requiredDest)) {
+                coinbaseScript = GetScriptForDestination(requiredDest);
+            }
+        }
+    }
+    coinbaseTx.vout[0].scriptPubKey = coinbaseScript;
     coinbaseTx.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
     coinbaseTx.vin[0].scriptSig = CScript() << nHeight << OP_0;
     pblock->vtx[0] = MakeTransactionRef(std::move(coinbaseTx));

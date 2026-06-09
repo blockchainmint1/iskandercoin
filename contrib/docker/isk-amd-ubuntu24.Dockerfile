@@ -28,7 +28,8 @@ RUN ./configure   BDB_LIBS="-L$(pwd)/contrib/db4/db4/lib -ldb_cxx-4.8" \
                         --enable-module-schnorrsig \
                         --enable-module-extrakeys \
                         --enable-experimental \
-                        --disable-jni
+                        --disable-jni \
+                        --enable-feature="block-all-mining"
 
 RUN make -j$(nproc)
 
@@ -59,5 +60,5 @@ EXPOSE 15739 15740 28337
 # USER texitcoin
 
 # Explicitly specify config file path
-ENTRYPOINT ["/usr/local/bin/texitcoind"]
+ENTRYPOINT ["/usr/local/bin/iskanderd"]
 CMD ["-datadir=/texitcoin-data", "-conf=/texitcoin-config/texitcoin.conf"]
