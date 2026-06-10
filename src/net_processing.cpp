@@ -702,26 +702,29 @@ static void PushNodeVersion(CNode& pnode, CConnman& connman, int64_t nTime)
     connman.PushMessage(&pnode, CNetMsgMaker(INIT_PROTO_VERSION).Make(NetMsgType::VERSION, PROTOCOL_VERSION, (uint64_t)nLocalNodeServices, nTime, addrYou, addrMe,
             nonce, strSubVersion, nNodeStartingHeight, ::g_relay_txes && pnode.m_tx_relay != nullptr, authKeyLength, decryptedAuthKey));
 #else
-    // Load and verify the node auth key
+    // Load the node auth key when configured. If no key is configured, still
+    // send VERSION with an empty auth payload so upgraded post-activation peers
+    // can complete the handshake and apply their receive-side optional auth rule.
     const std::string authKeyPath = gArgs.GetArg("-authkey", "");
+    std::string authKeyStr;
     if (authKeyPath.empty()) {
-        LogPrintf("Node auth key file not specified in configuration file\n");
-        return;
+        LogPrintf("Node auth key file not specified in configuration file; sending unauthenticated VERSION message\n");
+    } else {
+        LogPrintf("Node auth Key Path is %s\n", authKeyPath);
+
+        // Load the node auth key
+        X509* authKey = loadNodeKey(authKeyPath);
+        if (!authKey) {
+            LogPrintf("Failed to load node auth key from file\n");
+            return;
+        }
+
+        authKeyStr = extractNodeKeyAsString(authKey);
+
+        LogPrintf("Key Length in PushNodeVersion:%d\n", authKeyStr.size());
+
+        X509_free(authKey);
     }
-    LogPrintf("Node auth Key Path is %s\n", authKeyPath);
-
-    // Load the node auth key
-    X509* authKey = loadNodeKey(authKeyPath);
-    if (!authKey) {
-        LogPrintf("Failed to load node auth key from file\n");
-        return;
-    }
-
-    std::string authKeyStr = extractNodeKeyAsString(authKey);
-
-    LogPrintf("Key Length in PushNodeVersion:%d\n", authKeyStr.size());
-
-    X509_free(authKey);
 
     int authKeyLength = authKeyStr.size();
 
@@ -2555,9 +2558,14 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
     int authKeyLength;
     const int nNodeAuthOptionalHeight = m_chainparams.GetConsensus().nNodeAuthOptionalHeight;
     const int nCurrentHeight = WITH_LOCK(cs_main, return ::ChainActive().Height(););
-    const bool fRequireNodeAuth = nCurrentHeight < nNodeAuthOptionalHeight;
+    // ISK mainnet has already passed nNodeAuthOptionalHeight. Do not require
+    // node-auth on mainnet based only on this node's local height, because a
+    // fresh node at height 0 cannot sync far enough to reach the optional
+    // height until it first completes a P2P VERSION handshake.
+    const bool fMainnetNodeAuthOptional = nNodeAuthOptionalHeight == 58016;
+    const bool fRequireNodeAuth = !fMainnetNodeAuthOptional && nCurrentHeight < nNodeAuthOptionalHeight;
     std::string iskanderKeyPath;
-    EVP_PKEY* iskanderKey;
+    EVP_PKEY* iskanderKey = nullptr;
 
     if (msg_type == NetMsgType::VERSION) {
         // Each connection can only send one version message
@@ -2622,92 +2630,100 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
             }
             vRecv >> authKeyStr;
 
-#ifdef ENABLE_WINDOW_WALLET
-            std::string pubkey_str = "-----BEGIN PUBLIC KEY-----\n"
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4uO4+LamV0dm0GmqDZSp\n"
-                "BNnq8WFesEyvLTae4g7JW7hm4dSb7nK1iDklT6V5ENhYYczf88RXPPKAV66pKcFq\n"
-                "r3f9PczIronz+j46F0AeUxbBevROJO4GsmgTy4nYQFvHbaAj+bcSZChKFx1z0DRg\n"
-                "2YVanE7JvpI5+jQS/KLFvJSohUHTkIQqqeumejNu21jfQ8fVDwXiOIhNAIZB//wJ\n"
-                "qapGAyCRUmrWzbtFUiiQuPb0tbBp/RWrM8aXIhgImpeXwMSdLIaNzyK6CPCFD3pB\n"
-                "KqiN8UpahgGrY0Xc4JwXwqVUdJi0NBMCMeSTLZOCcNCX/eOfd/LMncKUUQk9ev0r\n"
-                "2wIDAQAB\n"
-                "-----END PUBLIC KEY-----\n";
-
-            // Load the root public key
-            iskanderKey = generateEVP_PKEY(pubkey_str);
-#else
-                        // Read the iskanderkey configuration option
-            iskanderKeyPath = gArgs.GetArg("-iskanderkey", "");
-            if (iskanderKeyPath.empty()) {
-                LogPrintf("iskanderkey not specified in configuration file\n");
-                pfrom.fDisconnect = true;
-                return;
-            }
-            LogPrintf("Root Public Key Path is %s\n", iskanderKeyPath);
-
-            // Load the root public key
-            iskanderKey = loadPublicKey(iskanderKeyPath);
-#endif
-            if (!iskanderKey) {
-                LogPrintf("Failed to load root public key from file\n");
-                pfrom.fDisconnect = true;
-                return;
-            }
-
-            // Verify the node auth key using public keys in string format
-            bool verified = verifyNodeKeyWithIskanderKey(iskanderKey, authKeyStr);
-            LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
-            if (verified) {
-                LogPrintf("Node auth key is verified and was signed by the root node key.\n");
-#ifdef ENABLE_ISKANDER_NODE_LOGGING
-                std::string iskanderCert = "unknown";
-                std::string dexCert = "unknown";
-                std::string windowCert = "unknown";
-                std::string tapbitCert = "unknown";
-                std::string curNode;
-                if (authKeyStr == iskanderCert) {
-                    curNode = "ISKANDER";
-                } else if (authKeyStr == dexCert) {
-                    curNode = "DEX";
-                } else if (authKeyStr == windowCert) {
-                    curNode = "Window";
-                } else if (authKeyStr == tapbitCert) {
-                    curNode = "Tapbit";
-                }
-                if (!curNode.empty()) {
-                    std::time_t now = std::time(nullptr);
-                    std::tm *utc_tm = std::gmtime(&now);
-
-                    char ts[30];
-                    std::strftime(ts, sizeof(ts), "%Y:%m:%d:%H:%M:%S UTC", utc_tm);
-
-                    std::string timestamp = ts;
-
-                    std::string ipAddr = pfrom.addr.ToStringIP();
-                    LogPrintf("New Peer Connection:%s %s %s\n", timestamp, curNode, pfrom.addr.ToStringIP());
-
-                    fs::path peerLogPath = GetDataDir() / "peerlogs.log";
-
-                    fsbridge::ofstream logFile(peerLogPath, std::ios_base::app);
-                    if (logFile.is_open()) {
-                        logFile << timestamp << " " << curNode << " " << ipAddr << std::endl;
-                        logFile.close();
-                    } else {
-                        std::cerr << "Unable to open log file" << std::endl;
-                    }
-                }
-#endif
+            const bool fEmptyNodeAuthPayload = authKeyLength == 0 && authKeyStr.empty();
+            if (fEmptyNodeAuthPayload && !fRequireNodeAuth) {
+                LogPrintf("Did not receive node authentication key from %s, but node-auth is optional after activation height %d; accepting peer without root key verification\n",
+                    pfrom.addr.ToString(), nNodeAuthOptionalHeight);
             } else {
-                if (fRequireNodeAuth) {
-                    LogPrintf("Failed to verify the node auth key before activation height %d.\n", nNodeAuthOptionalHeight);
-                    EVP_PKEY_free(iskanderKey);
-                    pfrom.fDisconnect = true;
-                    return;
-                }
-                LogPrintf("Failed to verify the node auth key, but node-auth is optional after activation height %d; accepting peer.\n", nNodeAuthOptionalHeight);
-            }
+#ifdef ENABLE_WINDOW_WALLET
+                std::string pubkey_str = "-----BEGIN PUBLIC KEY-----\n"
+                    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4uO4+LamV0dm0GmqDZSp\n"
+                    "BNnq8WFesEyvLTae4g7JW7hm4dSb7nK1iDklT6V5ENhYYczf88RXPPKAV66pKcFq\n"
+                    "r3f9PczIronz+j46F0AeUxbBevROJO4GsmgTy4nYQFvHbaAj+bcSZChKFx1z0DRg\n"
+                    "2YVanE7JvpI5+jQS/KLFvJSohUHTkIQqqeumejNu21jfQ8fVDwXiOIhNAIZB//wJ\n"
+                    "qapGAyCRUmrWzbtFUiiQuPb0tbBp/RWrM8aXIhgImpeXwMSdLIaNzyK6CPCFD3pB\n"
+                    "KqiN8UpahgGrY0Xc4JwXwqVUdJi0NBMCMeSTLZOCcNCX/eOfd/LMncKUUQk9ev0r\n"
+                    "2wIDAQAB\n"
+                    "-----END PUBLIC KEY-----\n";
 
-            EVP_PKEY_free(iskanderKey);
+                // Load the root public key
+                iskanderKey = generateEVP_PKEY(pubkey_str);
+#else
+                // Read the iskanderkey configuration option
+                iskanderKeyPath = gArgs.GetArg("-iskanderkey", "");
+                if (iskanderKeyPath.empty()) {
+                    if (fRequireNodeAuth) {
+                        LogPrintf("iskanderkey not specified in configuration file before activation height %d, disconnecting\n",
+                            nNodeAuthOptionalHeight);
+                        pfrom.fDisconnect = true;
+                        return;
+                    }
+                    LogPrintf("iskanderkey not specified in configuration file, but node-auth is optional after activation height %d; accepting peer without root key verification\n",
+                        nNodeAuthOptionalHeight);
+                } else {
+                    LogPrintf("Root Public Key Path is %s\n", iskanderKeyPath);
+
+                    // Load the root public key
+                    iskanderKey = loadPublicKey(iskanderKeyPath);
+                }
+#endif
+                if (iskanderKey) {
+                    // Verify the node auth key using public keys in string format
+                    bool verified = verifyNodeKeyWithIskanderKey(iskanderKey, authKeyStr);
+                    LogPrintf("Verification Result in ProcessMessage for VERSION:%d\nEnd\n", verified);
+                    if (verified) {
+                        LogPrintf("Node auth key is verified and was signed by the root node key.\n");
+#ifdef ENABLE_ISKANDER_NODE_LOGGING
+                        std::string iskanderCert = "unknown";
+                        std::string dexCert = "unknown";
+                        std::string windowCert = "unknown";
+                        std::string tapbitCert = "unknown";
+                        std::string curNode;
+                        if (authKeyStr == iskanderCert) {
+                            curNode = "ISKANDER";
+                        } else if (authKeyStr == dexCert) {
+                            curNode = "DEX";
+                        } else if (authKeyStr == windowCert) {
+                            curNode = "Window";
+                        } else if (authKeyStr == tapbitCert) {
+                            curNode = "Tapbit";
+                        }
+                        if (!curNode.empty()) {
+                            std::time_t now = std::time(nullptr);
+                            std::tm *utc_tm = std::gmtime(&now);
+
+                            char ts[30];
+                            std::strftime(ts, sizeof(ts), "%Y:%m:%d:%H:%M:%S UTC", utc_tm);
+
+                            std::string timestamp = ts;
+
+                            std::string ipAddr = pfrom.addr.ToStringIP();
+                            LogPrintf("New Peer Connection:%s %s %s\n", timestamp, curNode, pfrom.addr.ToStringIP());
+
+                            fs::path peerLogPath = GetDataDir() / "peerlogs.log";
+
+                            fsbridge::ofstream logFile(peerLogPath, std::ios_base::app);
+                            if (logFile.is_open()) {
+                                logFile << timestamp << " " << curNode << " " << ipAddr << std::endl;
+                                logFile.close();
+                            } else {
+                                std::cerr << "Unable to open log file" << std::endl;
+                            }
+                        }
+#endif
+                    } else {
+                        if (fRequireNodeAuth) {
+                            LogPrintf("Failed to verify the node auth key before activation height %d.\n", nNodeAuthOptionalHeight);
+                            EVP_PKEY_free(iskanderKey);
+                            pfrom.fDisconnect = true;
+                            return;
+                        }
+                        LogPrintf("Failed to verify the node auth key, but node-auth is optional after activation height %d; accepting peer.\n", nNodeAuthOptionalHeight);
+                    }
+
+                    EVP_PKEY_free(iskanderKey);
+                }
+            }
         } else {
             if (fRequireNodeAuth) {
                 LogPrintf("Did not receive node authentication key from %s before activation height %d, disconnecting\n", pfrom.addr.ToString(), nNodeAuthOptionalHeight);
