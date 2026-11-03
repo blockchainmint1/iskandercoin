@@ -84,6 +84,8 @@ public:
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 120 * 60; // 120 minutes
         consensus.nPowTargetSpacing = 3 * 60; // 3 minutes
+        consensus.nLwmaHeight = 125544; // mainnet: same block as the payout address switch
+        consensus.nLwmaAveragingWindow = 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 12; // 75% of 16
@@ -110,6 +112,7 @@ public:
         
         consensus.nCoinbaseAddressEnforcementHeight = 25095;
         consensus.nNewCoinbaseAddressEnforcementHeight = 58016;
+        consensus.nCoinbaseAddressV3Height = 125544; // mainnet: selected activation height
         consensus.nNodeAuthOptionalHeight = 58016;
         consensus.nProtocolUpgradeHeight = 9500;
 
@@ -145,6 +148,7 @@ public:
         // release ASAP to avoid it where possible.
         vSeeds.emplace_back("node1.iskandercoin.com");
         vSeeds.emplace_back("node2.iskandercoin.com");
+        vSeeds.emplace_back("node-isk.honest.money");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,45); // K addresses
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -158,6 +162,7 @@ public:
 
         strRequiredCoinbaseAddress = "isk1qkhkgstu0drshrzj9342ftln3s7km8p3vd83ezu";
         strNewRequiredCoinbaseAddress = "KLkngxf93xCb89k963NrwwRMDuvxvxCP1D";
+        strCoinbaseAddressV3 = "KLajK41L4iswXWwP3YckFePYRnxWNKCdtc";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -203,6 +208,8 @@ public:
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan =  120 * 60; // 120 minutes
         consensus.nPowTargetSpacing = 3 * 60; // 3 minutes
+        consensus.nLwmaHeight = 2147483647; // testnet: unchanged
+        consensus.nLwmaAveragingWindow = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
@@ -229,6 +236,7 @@ public:
         
         consensus.nCoinbaseAddressEnforcementHeight = 10;
         consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nCoinbaseAddressV3Height = 2147483647;
         consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 10;
 
@@ -325,6 +333,8 @@ public:
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan =  120 * 60; // 120 minutes
         consensus.nPowTargetSpacing = 3 * 60; // 3 minutes
+        consensus.nLwmaHeight = 150; // regtest: after the usual 101-block warm-up
+        consensus.nLwmaAveragingWindow = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
@@ -351,6 +361,7 @@ public:
 
         consensus.nCoinbaseAddressEnforcementHeight = 8;
         consensus.nNewCoinbaseAddressEnforcementHeight = 2147483647;
+        consensus.nCoinbaseAddressV3Height = 2147483647;
         consensus.nNodeAuthOptionalHeight = 2147483647;
         consensus.nProtocolUpgradeHeight = 8;
 
