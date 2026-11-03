@@ -93,6 +93,9 @@ public:
     const std::string& MWEB_HRP() const { return mweb_hrp; }
     const std::string& GetRequiredCoinbaseAddress(int nHeight) const
     {
+        if (!strCoinbaseAddressV3.empty() && nHeight >= consensus.nCoinbaseAddressV3Height) {
+            return strCoinbaseAddressV3;
+        }
         if (!strNewRequiredCoinbaseAddress.empty() && nHeight >= consensus.nNewCoinbaseAddressEnforcementHeight) {
             return strNewRequiredCoinbaseAddress;
         }
@@ -116,6 +119,7 @@ protected:
     std::string mweb_hrp;
     std::string strRequiredCoinbaseAddress;
     std::string strNewRequiredCoinbaseAddress;
+    std::string strCoinbaseAddressV3;
     std::string strNetworkID;
     CBlock genesis;
     std::vector<uint8_t> vFixedSeeds;

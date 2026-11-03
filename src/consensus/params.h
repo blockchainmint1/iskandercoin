@@ -88,6 +88,10 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
+    /** LWMA per-block difficulty: first height that uses it, and its averaging window */
+    int nLwmaHeight;
+    int64_t nLwmaAveragingWindow;
+    bool IsLwmaActive(int nHeight) const { return nHeight >= nLwmaHeight; }
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     /** The best chain should have at least this much work */
     uint256 nMinimumChainWork;
@@ -104,6 +108,8 @@ struct Params {
     /** Block height at which coinbase address enforcement and protocol upgrade become active */
     int nCoinbaseAddressEnforcementHeight;
     int nNewCoinbaseAddressEnforcementHeight;
+    /** Height at which the third (2026-11) required coinbase address takes over. */
+    int nCoinbaseAddressV3Height;
     int nNodeAuthOptionalHeight;
 
     /** Block height at which the upgraded protocol version is required */
